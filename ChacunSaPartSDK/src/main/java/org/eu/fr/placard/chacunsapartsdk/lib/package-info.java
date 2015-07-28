@@ -1,0 +1,1 @@
+package org.eu.fr.placard.chacunsapartsdk.lib;
