@@ -28,7 +28,8 @@ public class MainActivity extends Activity implements OnClickListener, BackendLi
 	
 	private EditText mLoginEt;
 	private EditText mPasswordEt;
-	
+
+	/* The backend */
 	private Backend mBackend;
 	
 	@Override
