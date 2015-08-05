@@ -10,5 +10,10 @@
     <string name="logout">Logout</string>
     <string name="next">Next</string>
     <string name="title_activity_my_groups">MyGroups</string>
+    <string name="title_activity_group">GroupActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 
 </resources>

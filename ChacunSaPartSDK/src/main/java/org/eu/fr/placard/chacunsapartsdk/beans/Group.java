@@ -1,8 +1,11 @@
 package org.eu.fr.placard.chacunsapartsdk.beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Group {
+public class Group implements Parcelable {
 	@SerializedName("group_id")
 	private int mId;
 	
@@ -65,4 +68,36 @@ public class Group {
 	public String toString() {
 		return mName;
 	}
+
+	public Group(Parcel in) {
+        this.mId = in.readInt();
+        this.mName = in.readString();
+        this.mFraction = in.readInt();
+        this.mCreatorId = in.readInt();
+        this.mCreatorNick = in.readString();
+    }
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mId);
+        parcel.writeString(mName);
+        parcel.writeInt(mFraction);
+        parcel.writeInt(mCreatorId);
+        parcel.writeString(mCreatorNick);
+	}
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Group createFromParcel(Parcel in) {
+            return new Group(in);
+        }
+
+        public Group[] newArray(int size) {
+            return new Group[size];
+        }
+    };
 }
