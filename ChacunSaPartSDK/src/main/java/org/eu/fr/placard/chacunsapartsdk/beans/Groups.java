@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Groups extends BackendObject {
 	@SerializedName("data")
-	private ArrayList<Group> mGroups;
+	private ArrayList<Group> mGroups = new ArrayList<Group>();
 	
 	public Groups() {
 		
@@ -21,6 +21,10 @@ public class Groups extends BackendObject {
 	}
 	
 	public int getSize() {
-		return mGroups.size();
+		if (mGroups != null) {
+			return mGroups.size();
+		} else {
+			return 0;
+		}
 	}
 }

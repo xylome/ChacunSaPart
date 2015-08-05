@@ -28,8 +28,10 @@ public class MyGroups extends Activity implements BackendListener {
 		setContentView(R.layout.activity_my_groups);
 		
 		mBackend = Backend.getInstance(getApplicationContext());
-		mBackend.myGroups(this);
-		
+
+		if (mBackend.isLoggedIn()) {
+			mBackend.myGroups(this);
+		}
 		mList = (ListView) findViewById(R.id.my_groups_lv);
 		
 	}

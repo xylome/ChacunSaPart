@@ -62,7 +62,11 @@ public class MainActivity extends Activity implements OnClickListener, BackendLi
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume()");
+        Log.d(TAG, "onResume() --------");
+
+		if (mBackend.getEmail() != null) {
+			mLoginEt.setText(mBackend.getEmail());
+		}
     }
 
 	@Override
