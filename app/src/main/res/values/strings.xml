@@ -9,9 +9,12 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="next">Next</string>
-    <string name="title_activity_my_groups">MyGroups</string>
+    <string name="title_login">Identification</string>
+    <string name="title_activity_my_groups">Mes groupes</string>
     <string name="title_activity_group">GroupActivity</string>
-
+    <string name="expenses">dépenses</string>
+    <string name="balances">soldes</string>
+    <string name="transfers">virements</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>

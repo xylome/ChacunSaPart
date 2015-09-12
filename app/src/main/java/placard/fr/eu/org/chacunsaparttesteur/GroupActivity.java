@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,8 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class GroupActivity extends Activity implements ActionBar.TabListener {
+import org.eu.fr.placard.chacunsapartsdk.beans.Group;
 
+public class GroupActivity extends Activity implements ActionBar.TabListener, expenseFragment.OnFragmentInteractionListener {
+
+    private static final String TAG = GroupActivity.class.getSimpleName() ;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -31,6 +35,8 @@ public class GroupActivity extends Activity implements ActionBar.TabListener {
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+
+    Group mGroup;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -45,6 +51,13 @@ public class GroupActivity extends Activity implements ActionBar.TabListener {
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        Intent received = getIntent();
+        Bundle extras = received.getExtras();
+
+        mGroup = extras.getParcelable("GROUP");
+
+        actionBar.setTitle(mGroup.getName());
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -77,8 +90,9 @@ public class GroupActivity extends Activity implements ActionBar.TabListener {
         }
     }
 
-    public static Intent getIntent(Context c) {
+    public static Intent getIntent(Context c, Group group) {
         Intent i = new Intent(c, GroupActivity.class);
+        i.putExtra("GROUP", group);
         return i;
     }
 
@@ -119,6 +133,11 @@ public class GroupActivity extends Activity implements ActionBar.TabListener {
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    @Override
+    public void onFragmentInteraction(String id) {
+        Log.d(TAG, "onFragmentInteraction: id: " + id);
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -133,6 +152,10 @@ public class GroupActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+           if (position == 0) {
+               return new expenseFragment();
+           }
+
             return PlaceholderFragment.newInstance(position + 1);
         }
 
@@ -144,14 +167,14 @@ public class GroupActivity extends Activity implements ActionBar.TabListener {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
+           // Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
+                    return getString(R.string.expenses);
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
+                    return getString(R.string.balances);
                 case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.transfers);
             }
             return null;
         }
@@ -176,6 +199,8 @@ public class GroupActivity extends Activity implements ActionBar.TabListener {
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+
+
             return fragment;
         }
 

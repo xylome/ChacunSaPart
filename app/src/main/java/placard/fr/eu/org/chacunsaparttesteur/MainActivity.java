@@ -7,6 +7,7 @@ import org.eu.fr.placard.chacunsapartsdk.beans.BackendObject;
 import org.eu.fr.placard.chacunsapartsdk.lib.Backend;
 import org.eu.fr.placard.chacunsapartsdk.listeners.BackendListener;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class MainActivity extends Activity implements OnClickListener, BackendLi
 	private EditText mLoginEt;
 	private EditText mPasswordEt;
 
+	private ActionBar mAction;
+
 	/* The backend */
 	private Backend mBackend;
 	
@@ -50,6 +53,10 @@ public class MainActivity extends Activity implements OnClickListener, BackendLi
 		
 		mLoginEt = (EditText) findViewById(R.id.login_et);
 		mPasswordEt = (EditText) findViewById(R.id.password_et);
+
+		mAction = getActionBar();
+
+		mAction.setTitle(R.string.title_login);
 	}
 
 	@Override

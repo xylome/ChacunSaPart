@@ -35,7 +35,8 @@ public class MyGroups extends Activity implements BackendListener {
 			mBackend.myGroups(this);
 		}
 		mList = (ListView) findViewById(R.id.my_groups_lv);
-		
+
+		getActionBar().setTitle(R.string.title_activity_my_groups);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class MyGroups extends Activity implements BackendListener {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d(TAG, "Clicked item number : " + i);
                 Log.d(TAG, "adapterView item creator is : " + ((Group)adapterView.getItemAtPosition(i)).getCreatorNick());
-                startActivity(GroupActivity.getIntent(getApplicationContext()));
+                startActivity(GroupActivity.getIntent(getApplicationContext(), ((Group) adapterView.getItemAtPosition(i))));
             }
         });
     }
