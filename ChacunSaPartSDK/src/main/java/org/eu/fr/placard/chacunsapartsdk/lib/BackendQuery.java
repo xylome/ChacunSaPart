@@ -9,7 +9,8 @@ import android.util.Log;
 public class BackendQuery implements BackendConf {
 
 	private static final String TAG = BackendQuery.class.getSimpleName();
-	private String mCookie;
+
+    private String mCookie;
 	private String mAction;
 	private String mParams;
 	private String mUrl;
@@ -82,4 +83,17 @@ public class BackendQuery implements BackendConf {
 		return result;
 	}
 
+	public static String buildGetExpensesParams(int group_id) {
+		String result = null;
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put(FIELD_GROUP_ID, group_id);
+            result = obj.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return result;
+	}
 }

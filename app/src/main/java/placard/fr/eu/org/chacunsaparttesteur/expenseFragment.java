@@ -49,12 +49,12 @@ public class expenseFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        //if (getArguments() != null) {
+        //    mParam1 = getArguments().getString(ARG_PARAM1);
+        //    mParam2 = getArguments().getString(ARG_PARAM2);
+        //}
 
-        // TODO: Change Adapter to display your content
+        // TODO: backend query here.
         setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
