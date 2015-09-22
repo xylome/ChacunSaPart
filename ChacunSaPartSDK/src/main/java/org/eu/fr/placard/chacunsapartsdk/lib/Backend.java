@@ -1,6 +1,7 @@
 package org.eu.fr.placard.chacunsapartsdk.lib;
 
 import org.eu.fr.placard.chacunsapartsdk.beans.Group;
+import org.eu.fr.placard.chacunsapartsdk.beans.GroupExpenses;
 import org.eu.fr.placard.chacunsapartsdk.exceptions.BackendException;
 import org.eu.fr.placard.chacunsapartsdk.exceptions.BadCredentialsException;
 import org.eu.fr.placard.chacunsapartsdk.exceptions.HttpConnectionException;
@@ -118,7 +119,7 @@ public class Backend implements BackendConf {
 
                 try {
                     Gson gson = new Gson();
-                    bo = gson.fromJson(s, Groups.class);
+                    bo = gson.fromJson(s, GroupExpenses.class);
                 } catch(JsonParseException e) {
                     Log.e(TAG, "Error while parsing JSON: " + e.getMessage());
                     caller.onBackendError(new BackendException("Problem while parsing server expenses"));
@@ -127,6 +128,7 @@ public class Backend implements BackendConf {
                 caller.onBackendResponse(bo);
             }
         };
+		ba.execute(bq);
     }
 	
 	public void myGroups(BackendListener caller) 

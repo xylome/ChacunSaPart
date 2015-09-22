@@ -153,7 +153,7 @@ public class GroupActivity extends Activity implements ActionBar.TabListener, ex
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
            if (position == 0) {
-               return new expenseFragment();
+               return expenseFragment.newInstance(mGroup.getId());
            }
 
             return PlaceholderFragment.newInstance(position + 1);
