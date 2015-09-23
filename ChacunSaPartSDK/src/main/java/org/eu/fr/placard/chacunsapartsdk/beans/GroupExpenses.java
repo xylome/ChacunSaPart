@@ -10,4 +10,12 @@ public class GroupExpenses extends BackendObject {
     private ArrayList<Expense> mExpenses = new ArrayList<Expense>();
 
 
+    public ArrayList<Expense> getExpenses() {
+        return mExpenses;
+    }
+
+    @Override
+    public String toString() {
+        return "Nb expenses: " + mExpenses.size();
+    }
 }

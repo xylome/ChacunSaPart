@@ -21,4 +21,8 @@ public class Expense {
     @SerializedName("participations")
     private ArrayList<Participation> mParticipations = new ArrayList<Participation>();
 
+    @Override
+    public String toString() {
+        return "Exp name: " + mName +  "Nbparts: " + mParticipations.size();
+    }
 }

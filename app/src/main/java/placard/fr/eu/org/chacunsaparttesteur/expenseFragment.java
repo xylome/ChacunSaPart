@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.eu.fr.placard.chacunsapartsdk.beans.BackendObject;
+import org.eu.fr.placard.chacunsapartsdk.beans.Expense;
+import org.eu.fr.placard.chacunsapartsdk.beans.GroupExpenses;
 import org.eu.fr.placard.chacunsapartsdk.exceptions.BackendException;
 import org.eu.fr.placard.chacunsapartsdk.lib.Backend;
 import org.eu.fr.placard.chacunsapartsdk.listeners.BackendListener;
@@ -20,8 +22,9 @@ import placard.fr.eu.org.chacunsaparttesteur.dummy.DummyContent;
  */
 public class expenseFragment extends ListFragment implements BackendListener {
 
-    private static final String GROUP_ID = "group_id";
+    private static final String TAG = expenseFragment.class.getSimpleName() ;
 
+    private static final String GROUP_ID = "group_id";
 
     private int mGroupId = -1;
 
@@ -60,8 +63,7 @@ public class expenseFragment extends ListFragment implements BackendListener {
         mBackend.getExpenses(this, mGroupId);
 
         // TODO: backend query here.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+
     }
 
 
@@ -96,7 +98,10 @@ public class expenseFragment extends ListFragment implements BackendListener {
 
 
     public void onBackendResponse(BackendObject bo) {
-
+        GroupExpenses ge = (GroupExpenses) bo;
+        Log.d(TAG, "Group Expenses received: " + ge);
+        setListAdapter(new ArrayAdapter<Expense>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, ge.getExpenses()));
     }
 
     public void onBackendError(BackendException be) {

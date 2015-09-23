@@ -28,13 +28,14 @@ public class MyGroups extends Activity implements BackendListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_groups);
-		
+
+		mList = (ListView) findViewById(R.id.my_groups_lv);
+
 		mBackend = Backend.getInstance(getApplicationContext());
 
 		if (mBackend.isLoggedIn()) {
 			mBackend.myGroups(this);
 		}
-		mList = (ListView) findViewById(R.id.my_groups_lv);
 
 		getActionBar().setTitle(R.string.title_activity_my_groups);
 	}
