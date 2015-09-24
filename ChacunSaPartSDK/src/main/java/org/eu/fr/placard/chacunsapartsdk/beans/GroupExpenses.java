@@ -11,7 +11,25 @@ public class GroupExpenses extends BackendObject {
 
 
     public ArrayList<Expense> getExpenses() {
-        return mExpenses;
+        ArrayList<Expense> expenses = new ArrayList<Expense>();
+
+        for (Expense e: mExpenses) {
+            if (!e.isPayback()) {
+                expenses.add(e);
+            }
+        }
+        return expenses;
+    }
+
+    public ArrayList<Expense> getPaybacks() {
+        ArrayList<Expense> expenses = new ArrayList<Expense>();
+
+        for (Expense e: mExpenses) {
+            if (e.isPayback()) {
+                expenses.add(e);
+            }
+        }
+        return expenses;
     }
 
     @Override

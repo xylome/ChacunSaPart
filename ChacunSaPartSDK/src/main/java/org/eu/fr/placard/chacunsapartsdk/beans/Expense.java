@@ -16,13 +16,25 @@ public class Expense {
     private float mAmount;
 
     @SerializedName("is_payback")
-    private boolean mIsPayback;
+    private int mIsPayback;
 
     @SerializedName("participations")
     private ArrayList<Participation> mParticipations = new ArrayList<Participation>();
 
     @Override
     public String toString() {
-        return "Exp name: " + mName +  "Nbparts: " + mParticipations.size();
+        return   mName + " " + mAmount + " €, pour " + getNbParts() + " parts.";
+    }
+
+    public int getNbParts() {
+        int parts = 0;
+        for (Participation p: mParticipations) {
+            parts += p.getParts();
+        }
+        return parts;
+    }
+
+    public boolean isPayback() {
+        return mIsPayback == 1;
     }
 }

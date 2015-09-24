@@ -1,7 +1,5 @@
 package placard.fr.eu.org.chacunsaparttesteur;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -13,17 +11,18 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.eu.fr.placard.chacunsapartsdk.beans.Group;
 
-public class GroupActivity extends Activity implements ActionBar.TabListener, expenseFragment.OnFragmentInteractionListener {
+import placard.fr.eu.org.chacunsaparttesteur.listener.ExpenseFragmentListener;
+import placard.fr.eu.org.chacunsaparttesteur.listener.PaybackFragmentListener;
+
+public class GroupActivity extends Activity implements ActionBar.TabListener, ExpenseFragmentListener, PaybackFragmentListener{
 
     private static final String TAG = GroupActivity.class.getSimpleName() ;
     /**
@@ -133,9 +132,12 @@ public class GroupActivity extends Activity implements ActionBar.TabListener, ex
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-    @Override
-    public void onFragmentInteraction(String id) {
-        Log.d(TAG, "onFragmentInteraction: id: " + id);
+    public void onExpenseFragmentInterraction(String id) {
+        Log.d(TAG, "OnExpenseFragment: id: " + id);
+    }
+
+    public void onPaybackFragmentInterraction(String id) {
+        Log.d(TAG, "OnPaybackFragment: id: " + id);
     }
 
     /**
@@ -152,9 +154,15 @@ public class GroupActivity extends Activity implements ActionBar.TabListener, ex
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-           if (position == 0) {
-               return expenseFragment.newInstance(mGroup.getId());
-           }
+
+            if (position == 0) {
+                return ExpenseFragment.newInstance(mGroup);
+            }
+
+
+            if (position == 2) {
+                return PaybackFragment.newInstance(mGroup);
+            }
 
             return PlaceholderFragment.newInstance(position + 1);
         }
