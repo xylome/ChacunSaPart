@@ -96,4 +96,18 @@ public class BackendQuery implements BackendConf {
 
         return result;
 	}
+
+	public static String buildGetBalancesParams(int group_id) {
+		String result = null;
+
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put(FIELD_GROUP_ID, group_id);
+			result = obj.toString();
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage());
+		}
+
+		return result;
+	}
 }
