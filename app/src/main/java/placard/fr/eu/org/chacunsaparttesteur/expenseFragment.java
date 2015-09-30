@@ -52,16 +52,15 @@ public class ExpenseFragment extends ListFragment implements BackendListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         if (getArguments() != null) {
             mGroup = getArguments().getParcelable(GROUP);
         }
 
+
+
         mBackend = Backend.getInstance(getActivity().getApplicationContext());
 
         mBackend.getExpenses(this, mGroup.getId());
-
 
     }
 

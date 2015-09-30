@@ -34,7 +34,7 @@ public class MyGroups extends Activity implements BackendListener {
 		mBackend = Backend.getInstance(getApplicationContext());
 
 		if (mBackend.isLoggedIn()) {
-			mBackend.myGroups(this);
+			mBackend.getMyGroups(this);
 		}
 
 		getActionBar().setTitle(R.string.title_activity_my_groups);

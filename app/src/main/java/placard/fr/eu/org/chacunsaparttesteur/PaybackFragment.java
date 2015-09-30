@@ -61,8 +61,6 @@ public class PaybackFragment extends ListFragment implements BackendListener {
         mBackend = Backend.getInstance(getActivity().getApplicationContext());
 
         mBackend.getExpenses(this, mGroup.getId());
-
-
     }
 
     @Override

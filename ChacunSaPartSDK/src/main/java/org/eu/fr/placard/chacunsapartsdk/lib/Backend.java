@@ -26,17 +26,11 @@ import com.google.gson.JsonParseException;
 public class Backend implements BackendConf {
     private static final String TAG = Backend.class.getSimpleName();
 
-    private static final String CACHE_GROUP = "group";
-
-    private static final String CACHE_MYGROUPS = "mygroups";
-
 	private String mUrl;
 	
 	private Context mContext;
 	
 	private DataManager mData;
-
-    private BackendCache mBackendCache;
 
     private long mCacheDuration = 1000 * 60; // one minute
 
@@ -46,7 +40,7 @@ public class Backend implements BackendConf {
 		mContext = c;
 		mData = DataManager.getInstance(c);
 		mUrl = mContext.getString(R.string.csp_url);
-        mBackendCache = new BackendCache(c);
+        //mBackendCache = new BackendCache(c);
 	}
 	
 	
@@ -104,153 +98,98 @@ public class Backend implements BackendConf {
 		ba.execute(bq);
 	}
 
-	public void getExpenses(final BackendListener caller, final int group_id) {
-        Log.d(TAG, "getExpenses: begin.");
+    public void getExpenses(BackendListener caller, int group_id) {
+        String params = BackendQuery.buildGetBalancesParams(group_id);
 
-        String params = BackendQuery.buildGetExpensesParams(group_id);
-
-        if(TextUtils.isEmpty(params)) {
-            caller.onBackendError(null);
-            return;
-        }
-
-        BackendQuery bq = new BackendQuery(mUrl, mData.getCookie(), ACTION_GET_EXPENSES, params);
-        BackendAsync ba = new BackendAsync() {
-            @Override
-            protected void onPostExecute(String s) {
-                BackendObject bo = null;
-                Log.d(TAG, "getExpense: result: " + s);
-
-                if(s == null) {
-                    caller.onBackendError(new HttpConnectionException("Error HTTP while retrieving expenses."));
-                    return;
-                }
-
-
-                try {
-                    Gson gson = new Gson();
-                    bo = gson.fromJson(s, GroupExpenses.class);
-                } catch(JsonParseException e) {
-                    Log.e(TAG, "Error while parsing JSON: " + e.getMessage());
-                    caller.onBackendError(new BackendException("Problem while parsing server expenses"));
-                    return;
-                }
-                caller.onBackendResponse(bo);
-            }
-        };
-		ba.execute(bq);
+        BackendObject bo = new GroupExpenses();
+        myBackendGeneric(caller, bo, ACTION_GET_EXPENSES, params, group_id);
     }
 
-	public void getBalances(final BackendListener caller, int group_id) {
-		Log.d(TAG, "getBalances: begin.");
+    public void getBalances(BackendListener caller, int group_id) {
+        String params = BackendQuery.buildGetBalancesParams(group_id);
 
-		String params = BackendQuery.buildGetBalancesParams(group_id);
+        GroupBalances gb = new GroupBalances();
+        myBackendGeneric(caller, gb, ACTION_GET_BALANCES, params, group_id);
+    }
 
-		if(TextUtils.isEmpty(params)) {
-			caller.onBackendError(null);
-			return;
-		}
+    public void getMyGroups(BackendListener caller) {
+        String params = BackendQuery.buildMyGroupsParams(mData.getAccountId());
+        Groups bo = new Groups();
+        myBackendGeneric(caller, bo, ACTION_MYGROUPS, params, -1);
+    }
 
-		BackendQuery bq = new BackendQuery(mUrl, mData.getCookie(), ACTION_GET_BALANCES, params);
-		BackendAsync ba = new BackendAsync() {
-			@Override
-			protected void onPostExecute(String s) {
-				BackendObject bo = null;
-				Log.d(TAG, "getBalances: result: " + s);
+    public void myBackendGeneric(BackendListener caller, final BackendObject inBo, final String verb, String params, final int cache_id)
+    {
+        final BackendCache bc = new BackendCache(mContext);
+        Log.d(TAG, "MyGroups : begin.");
+        final BackendListener lcaller = caller;
 
-				if(s == null) {
-					caller.onBackendError(new HttpConnectionException("Error HTTP while retrieving balances."));
-					return;
-				}
+        if(TextUtils.isEmpty(params)) {
+            lcaller.onBackendError(new BackendException("params were null"));
+            return;
+        }
+        bc.setWhat(verb);
+        BackendQuery bq = new BackendQuery(mUrl, mData.getCookie(), verb, params);
+        BackendAsync ba = new BackendAsync() {
+            @Override
+            protected void onPostExecute(String result) {
+                BackendObject resultBO = null;
 
-				try {
-					JSONObject json = new JSONObject(s);
-                    String data = json.getString("data");
-					Gson gson = new Gson();
-					bo = gson.fromJson(data, GroupBalances.class);
-				} catch(JsonParseException e) {
-					Log.e(TAG, "Error while parsing JSON: " + e.getMessage());
-					caller.onBackendError(new BackendException("Problem while parsing server balances"));
-					return;
-				} catch (JSONException e) {
-                    Log.e(TAG, "Error while parsing JSON: " + e.getMessage());
-                    caller.onBackendError(new BackendException("Problem while parsing server balances"));
+                final BackendObject bo = inBo;
+
+                Log.d(TAG, "backendGeneric: result: " + result);
+
+                if (result == null) {
+                    lcaller.onBackendError(new BackendException("Error while retrieving data from Http connection"));
                     return;
                 }
-				caller.onBackendResponse(bo);
-			}
-		};
-		ba.execute(bq);
-	}
 
-	public void myGroups(BackendListener caller) 
-	{
-		Log.d(TAG, "MyGroups : begin.");
-		final BackendListener lcaller = caller;
-        long now = System.currentTimeMillis();
+                bc.writeToCache(result, cache_id);
 
-
-		String params = BackendQuery.buildMyGroupsParams(mData.getAccountId());
-		if(TextUtils.isEmpty(params)) {
-			lcaller.onBackendError(null);
-			return;
-		}
-
-
-        
-        
-		
-		BackendQuery bq = new BackendQuery(mUrl, mData.getCookie(), ACTION_MYGROUPS, params);
-		BackendAsync ba = new BackendAsync() {
-			@Override
-			protected void onPostExecute(String result) {	
-				BackendObject bo = null;
-				Log.d(TAG, "myGroups: result: " + result);
-				
-				if (result == null) {
-					lcaller.onBackendError(new HttpConnectionException("Error while retrieving data from Http connection"));
-					return;
-				}
-                mBackendCache.writeToCache(result, CACHE_MYGROUPS, -1);
-				//String data = extractDataFromResponse(result);				
-
-				try {
-					Gson gson = new Gson();
-					bo = gson.fromJson(result, Groups.class);
-				} catch (JsonParseException jpe) {
-					Log.e(TAG, "login: JSON Exception" + jpe.getMessage());
-					lcaller.onBackendError(new BadCredentialsException("Error while parsing json: " + jpe.getMessage()));
-					return;
-				}
-				lcaller.onBackendResponse(bo);
-			}
-		};
-
-
-        if( mBackendCache.cacheExists(CACHE_MYGROUPS, -1))
-        {
-            long age = mBackendCache.getAge(CACHE_MYGROUPS, -1);
-            Log.d(TAG, "Cache of myGroups exists, age is: " + (now - age));
-
-            if ((now-age) < mCacheDuration) {
-                Log.d(TAG, "Not requesting server");
-                String result = mBackendCache.readFromCache(CACHE_MYGROUPS, -1);
-                BackendObject bo;
                 try {
+                    if (verb.equals(ACTION_GET_BALANCES)) {
+                        result = extractDataFromResponse(result);
+                    }
                     Gson gson = new Gson();
-                    bo = gson.fromJson(result, Groups.class);
+                    resultBO = gson.fromJson(result, inBo.getClass());
+                } catch (JsonParseException jpe) {
+                    Log.e(TAG, "JSON Exception, from HTTP: " + jpe.getMessage());
+                    lcaller.onBackendError(new BackendException("Error while parsing json: " + jpe.getMessage()));
+                    return;
+                }
+                lcaller.onBackendResponse(resultBO);
+            }
+        };
+
+
+        if(bc.cacheExists(cache_id))
+        {
+            BackendObject resultBO = null;
+            long age = bc.getAgeFromNow(cache_id);
+            Log.d(TAG, "Cache of " + verb + " exists, age is: " + (age));
+
+            if ((age) < mCacheDuration) {
+                Log.d(TAG, "Not requesting server");
+                String result = bc.readFromCache(cache_id);
+
+                try {
+                    if (verb.equals(ACTION_GET_BALANCES)) {
+                        result = extractDataFromResponse(result);
+                    }
+                    Gson gson = new Gson();
+                    resultBO= gson.fromJson(result, inBo.getClass());
                 } catch(JsonParseException jpe) {
-                    Log.e(TAG, "login: JSON Exception" + jpe.getMessage());
+                    Log.e(TAG, "JSON Exception, from cache: " + jpe.getMessage());
                     lcaller.onBackendError(new BadCredentialsException("Error while parsing json: " + jpe.getMessage()));
                     return;
                 }
-                lcaller.onBackendResponse(bo);
+                lcaller.onBackendResponse(resultBO);
                 return;
             }
         }
-		ba.execute(bq);
-	}
-	
+        ba.execute(bq);
+    }
+
 	public void logout() {
 		mData.writeAccountId(null);
 		mData.writeNick(null);
