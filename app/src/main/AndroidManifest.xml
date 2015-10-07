@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MyGroups"
+            android:name=".MyGroupsActivity"
             android:label="@string/app_name">
             >
         </activity>

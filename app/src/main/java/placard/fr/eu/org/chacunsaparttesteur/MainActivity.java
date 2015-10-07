@@ -87,7 +87,7 @@ public class MainActivity extends Activity implements OnClickListener, BackendLi
 			mBackend.logout();
 			break;
 		case R.id.next:
-			Intent i = MyGroups.getIntent(getApplicationContext());
+			Intent i = MyGroupsActivity.getIntent(getApplicationContext());
 			startActivity(i);
 			break;
 		}	

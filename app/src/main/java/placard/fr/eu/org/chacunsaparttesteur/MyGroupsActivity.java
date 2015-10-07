@@ -18,9 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MyGroups extends Activity implements BackendListener {
+public class MyGroupsActivity extends Activity implements BackendListener {
 
-	private static final String TAG = MyGroups.class.getSimpleName();
+	private static final String TAG = MyGroupsActivity.class.getSimpleName();
 	private Backend mBackend;
 	private ListView mList;
 	
@@ -48,7 +48,7 @@ public class MyGroups extends Activity implements BackendListener {
 	}
 
 	public static Intent getIntent(Context c) {
-		Intent i = new Intent(c, MyGroups.class);
+		Intent i = new Intent(c, MyGroupsActivity.class);
 		return i;
 	}
 
