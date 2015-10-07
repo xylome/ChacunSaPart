@@ -57,7 +57,7 @@ public class MyGroups extends Activity implements BackendListener {
 		Groups myGroups = (Groups) bo;
 		Log.d(TAG, "onBackendResponse: groups.size: " + myGroups.getSize());
 		
-		final ArrayAdapter<Group> adapter = new ArrayAdapter<Group>(getApplicationContext(), android.R.layout.simple_list_item_1, myGroups.getGroups());
+		final ArrayAdapter<Group> adapter = new ArrayAdapter<Group>(this, android.R.layout.simple_list_item_1, android.R.id.text1, myGroups.getGroups());
 		mList.setAdapter(adapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
