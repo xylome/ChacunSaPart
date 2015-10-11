@@ -1,29 +1,30 @@
-package placard.fr.eu.org.chacunsaparttesteur;
+package placard.fr.eu.org.ui;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.ListFragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.eu.fr.placard.chacunsapartsdk.beans.BackendObject;
-import org.eu.fr.placard.chacunsapartsdk.beans.Expense;
-import org.eu.fr.placard.chacunsapartsdk.beans.Group;
-import org.eu.fr.placard.chacunsapartsdk.beans.GroupExpenses;
-import org.eu.fr.placard.chacunsapartsdk.exceptions.BackendException;
-import org.eu.fr.placard.chacunsapartsdk.lib.Backend;
-import org.eu.fr.placard.chacunsapartsdk.listeners.BackendListener;
+import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.org.chacunsapart.backend.beans.Group;
+import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
+import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.org.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
 
-import placard.fr.eu.org.chacunsaparttesteur.listener.ExpenseFragmentListener;
+
+import placard.fr.eu.org.ui.listener.PaybackFragmentListener;
 
 /**
  *
  */
-public class ExpenseFragment extends ListFragment implements BackendListener {
+public class PaybackFragment extends ListFragment implements BackendListener {
 
-    private static final String TAG = ExpenseFragment.class.getSimpleName() ;
+    private static final String TAG = PaybackFragment.class.getSimpleName() ;
 
     private static final String GROUP = "group";
 
@@ -31,10 +32,11 @@ public class ExpenseFragment extends ListFragment implements BackendListener {
 
     private Backend mBackend;
 
-    private ExpenseFragmentListener mListener;
+    private PaybackFragmentListener mListener;
 
-    public static ExpenseFragment newInstance(Group group) {
-        ExpenseFragment fragment = new ExpenseFragment();
+
+    public static PaybackFragment newInstance(Group group) {
+        PaybackFragment fragment = new PaybackFragment();
         Bundle args = new Bundle();
         args.putParcelable(GROUP, group);
         fragment.setArguments(args);
@@ -45,7 +47,7 @@ public class ExpenseFragment extends ListFragment implements BackendListener {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ExpenseFragment() {
+    public PaybackFragment() {
     }
 
     @Override
@@ -56,20 +58,16 @@ public class ExpenseFragment extends ListFragment implements BackendListener {
             mGroup = getArguments().getParcelable(GROUP);
         }
 
-
-
         mBackend = Backend.getInstance(getActivity().getApplicationContext());
 
         mBackend.getExpenses(this, mGroup.getId());
-
     }
-
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (ExpenseFragmentListener) activity;
+            mListener = (PaybackFragmentListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -87,9 +85,7 @@ public class ExpenseFragment extends ListFragment implements BackendListener {
         super.onListItemClick(l, v, position, id);
 
         if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onExpenseFragmentInterraction("bar bar");
+            mListener.onPaybackFragmentInterraction("foo");
         }
     }
 
@@ -98,7 +94,7 @@ public class ExpenseFragment extends ListFragment implements BackendListener {
         GroupExpenses ge = (GroupExpenses) bo;
         Log.d(TAG, "Group Expenses received: " + ge);
         setListAdapter(new ArrayAdapter<Expense>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, ge.getExpenses()));
+                android.R.layout.simple_list_item_1, android.R.id.text1, ge.getPaybacks()));
     }
 
     public void onBackendError(BackendException be) {

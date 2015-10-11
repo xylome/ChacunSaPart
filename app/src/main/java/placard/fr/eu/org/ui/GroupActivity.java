@@ -1,4 +1,4 @@
-package placard.fr.eu.org.chacunsaparttesteur;
+package placard.fr.eu.org.ui;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -10,20 +10,19 @@ import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import org.eu.fr.placard.chacunsapartsdk.beans.Group;
+import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 
-import placard.fr.eu.org.chacunsaparttesteur.listener.BalanceFragmentListener;
-import placard.fr.eu.org.chacunsaparttesteur.listener.ExpenseFragmentListener;
-import placard.fr.eu.org.chacunsaparttesteur.listener.PaybackFragmentListener;
+import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.org.ui.listener.BalanceFragmentListener;
+import placard.fr.eu.org.ui.listener.ExpenseFragmentListener;
+import placard.fr.eu.org.ui.listener.PaybackFragmentListener;
 
-public class GroupActivity extends Activity implements ActionBar.TabListener, ExpenseFragmentListener, PaybackFragmentListener, BalanceFragmentListener{
+public class GroupActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener, ExpenseFragmentListener, PaybackFragmentListener, BalanceFragmentListener {
 
     private static final String TAG = GroupActivity.class.getSimpleName() ;
     /**
@@ -49,8 +48,8 @@ public class GroupActivity extends Activity implements ActionBar.TabListener, Ex
         setContentView(R.layout.activity_group);
 
         // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS);
 
         Intent received = getIntent();
         Bundle extras = received.getExtras();
@@ -118,20 +117,20 @@ public class GroupActivity extends Activity implements ActionBar.TabListener, Ex
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+//    @Override
+//    public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//        // When the given tab is selected, switch to the corresponding page in
+//        // the ViewPager.
+//        mViewPager.setCurrentItem(tab.getPosition());
+//    }
+//
+//    @Override
+//    public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//    }
+//
+//    @Override
+//    public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//    }
 
     public void onExpenseFragmentInterraction(String id) {
         Log.d(TAG, "OnExpenseFragment: id: " + id);
@@ -143,6 +142,21 @@ public class GroupActivity extends Activity implements ActionBar.TabListener, Ex
 
     public void onBalanceFragmentInterraction(String id) {
         Log.d(TAG, "OnBalanceFragment: id: " + id);
+    }
+
+    @Override
+    public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
     }
 
     /**

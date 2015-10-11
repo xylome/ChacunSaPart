@@ -1,16 +1,16 @@
-package placard.fr.eu.org.chacunsaparttesteur;
+package placard.fr.eu.org.ui;
 
-import org.eu.fr.placard.chacunsapartsdk.exceptions.BackendException;
-import org.eu.fr.placard.chacunsapartsdk.beans.BackendObject;
-import org.eu.fr.placard.chacunsapartsdk.beans.Group;
-import org.eu.fr.placard.chacunsapartsdk.beans.Groups;
-import org.eu.fr.placard.chacunsapartsdk.lib.Backend;
-import org.eu.fr.placard.chacunsapartsdk.listeners.BackendListener;
+import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.beans.Group;
+import placard.fr.eu.org.chacunsapart.backend.beans.Groups;
+import placard.fr.eu.org.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -18,7 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MyGroupsActivity extends Activity implements BackendListener {
+import placard.fr.eu.org.chacunsaparttesteur.R;
+
+public class MyGroupsActivity extends AppCompatActivity implements BackendListener {
 
 	private static final String TAG = MyGroupsActivity.class.getSimpleName();
 	private Backend mBackend;
@@ -37,7 +39,7 @@ public class MyGroupsActivity extends Activity implements BackendListener {
 			mBackend.getMyGroups(this);
 		}
 
-		getActionBar().setTitle(R.string.title_activity_my_groups);
+		getSupportActionBar().setTitle(R.string.title_activity_my_groups);
 	}
 
 	@Override

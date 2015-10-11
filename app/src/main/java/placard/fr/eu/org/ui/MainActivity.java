@@ -1,16 +1,17 @@
-package placard.fr.eu.org.chacunsaparttesteur;
+package placard.fr.eu.org.ui;
 
-import org.eu.fr.placard.chacunsapartsdk.exceptions.BackendException;
-import org.eu.fr.placard.chacunsapartsdk.exceptions.BadCredentialsException;
-import org.eu.fr.placard.chacunsapartsdk.exceptions.HttpConnectionException;
-import org.eu.fr.placard.chacunsapartsdk.beans.BackendObject;
-import org.eu.fr.placard.chacunsapartsdk.lib.Backend;
-import org.eu.fr.placard.chacunsapartsdk.listeners.BackendListener;
+import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.org.chacunsapart.backend.exceptions.BadCredentialsException;
+import placard.fr.eu.org.chacunsapart.backend.exceptions.HttpConnectionException;
+import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
 
-import android.app.ActionBar;
-import android.app.Activity;
+
+import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -19,7 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener, BackendListener {
+import placard.fr.eu.org.chacunsaparttesteur.R;
+
+public class MainActivity extends AppCompatActivity implements OnClickListener, BackendListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -54,7 +57,7 @@ public class MainActivity extends Activity implements OnClickListener, BackendLi
 		mLoginEt = (EditText) findViewById(R.id.login_et);
 		mPasswordEt = (EditText) findViewById(R.id.password_et);
 
-		mAction = getActionBar();
+		mAction = getSupportActionBar();
 
 		mAction.setTitle(R.string.title_login);
 	}
