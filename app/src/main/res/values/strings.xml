@@ -18,5 +18,12 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+    <string name="title_activity_edit_group">EditGroupActivity</string>
+
+    <string name="edit_group_name">Nom du groupe</string>
+    <string name="edit_group_nb_parts">Nombre de part minimal</string>
+
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">ANNULER</string>
 
 </resources>

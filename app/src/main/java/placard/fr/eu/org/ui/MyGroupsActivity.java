@@ -8,8 +8,10 @@ import placard.fr.eu.org.chacunsapart.backend.lib.Backend;
 import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,12 +22,14 @@ import android.widget.ListView;
 
 import placard.fr.eu.org.chacunsaparttesteur.R;
 
-public class MyGroupsActivity extends AppCompatActivity implements BackendListener {
+public class MyGroupsActivity extends AppCompatActivity implements BackendListener,
+        View.OnClickListener {
 
 	private static final String TAG = MyGroupsActivity.class.getSimpleName();
 	private Backend mBackend;
 	private ListView mList;
-	
+	private FloatingActionButton mFab;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,6 +42,10 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
 		if (mBackend.isLoggedIn()) {
 			mBackend.getMyGroups(this);
 		}
+
+        mFab = (FloatingActionButton) findViewById(R.id.my_groups_fab);
+
+        mFab.setOnClickListener(this);
 
 		getSupportActionBar().setTitle(R.string.title_activity_my_groups);
 	}
@@ -75,5 +83,12 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
 	public void onBackendError(BackendException be) {
 		
 	}
-	
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.my_groups_fab) {
+            Intent i = EditGroupActivity.getIntent(this);
+            startActivity(i);
+        }
+    }
 }
