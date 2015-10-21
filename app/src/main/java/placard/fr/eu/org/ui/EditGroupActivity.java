@@ -4,15 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import placard.fr.eu.org.adapters.PartAdapter;
 import placard.fr.eu.org.chacunsaparttesteur.R;
 
 public class EditGroupActivity extends AppCompatActivity {
 
+    private static final String TAG = EditGroupActivity.class.getSimpleName();
     private Spinner mSpinner;
 
     @Override
@@ -22,10 +25,12 @@ public class EditGroupActivity extends AppCompatActivity {
 
         mSpinner = (Spinner) findViewById(R.id.edit_group_parts);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.parts, android.R.layout.simple_spinner_item);
+ //       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+ //               R.array.parts, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+ //       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        PartAdapter adapter = new PartAdapter(this, android.R.layout.simple_spinner_item);
 
         mSpinner.setAdapter(adapter);
 
@@ -49,7 +54,7 @@ public class EditGroupActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Log.d(TAG, "onOptionsItemSelected: item:" + item.getItemId());
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
