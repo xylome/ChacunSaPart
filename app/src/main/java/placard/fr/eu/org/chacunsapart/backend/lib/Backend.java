@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupBalances;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
 import placard.fr.eu.org.chacunsapart.backend.beans.Groups;
@@ -104,23 +105,33 @@ public class Backend implements BackendConf {
         String params = BackendQuery.buildGetBalancesParams(group_id);
 
         BackendObject bo = new GroupExpenses();
-        myBackendGeneric(caller, bo, ACTION_GET_EXPENSES, params, group_id);
+        myBackendGeneric(caller, bo, ACTION_GET_EXPENSES, params, group_id, false);
     }
 
     public void getBalances(BackendListener caller, int group_id) {
         String params = BackendQuery.buildGetBalancesParams(group_id);
 
         GroupBalances gb = new GroupBalances();
-        myBackendGeneric(caller, gb, ACTION_GET_BALANCES, params, group_id);
+        myBackendGeneric(caller, gb, ACTION_GET_BALANCES, params, group_id, false);
     }
 
     public void getMyGroups(BackendListener caller) {
-        String params = BackendQuery.buildMyGroupsParams(mData.getAccountId());
-        Groups bo = new Groups();
-        myBackendGeneric(caller, bo, ACTION_MYGROUPS, params, -1);
+        getMyGroups(caller, false);
     }
 
-    public void myBackendGeneric(BackendListener caller, final BackendObject inBo, final String verb, String params, final int cache_id)
+    public void getMyGroups(BackendListener caller, boolean forceRefresh) {
+        String params = BackendQuery.buildMyGroupsParams(mData.getAccountId());
+        Groups bo = new Groups();
+        myBackendGeneric(caller, bo, ACTION_MYGROUPS, params, -1, forceRefresh);
+    }
+
+    public void createGroup(BackendListener caller, Group group) {
+        String params = BackendQuery.buildCreateGroupParams(group);
+        BackendObject bo = new BackendObject();
+        myBackendGeneric(caller, bo, ACTION_CREATE_GROUP, params, -1, false);
+    }
+
+    public void myBackendGeneric(BackendListener caller, final BackendObject inBo, final String verb, String params, final int cache_id, boolean forceRefresh)
     {
         final BackendCache bc = new BackendCache(mContext);
         Log.d(TAG, "MyGroups : begin.");
@@ -146,7 +157,9 @@ public class Backend implements BackendConf {
                     return;
                 }
 
-                bc.writeToCache(result, cache_id);
+                if (!verb.equals(ACTION_CREATE_GROUP)) {
+                    bc.writeToCache(result, cache_id);
+                }
 
                 try {
                     if (verb.equals(ACTION_GET_BALANCES)) {
@@ -164,7 +177,7 @@ public class Backend implements BackendConf {
         };
 
 
-        if(bc.cacheExists(cache_id))
+        if(bc.cacheExists(cache_id) && !forceRefresh)
         {
             BackendObject resultBO = null;
             long age = bc.getAgeFromNow(cache_id);
@@ -195,7 +208,7 @@ public class Backend implements BackendConf {
 	public void logout() {
 		mData.writeAccountId(null);
 		mData.writeNick(null);
-		mData.writeActorId(null);
+		mData.writeActorId(0);
 		// keeping email in sharedPrefs.
 		//mData.writeEmail(null); 
 		mData.writeCookie(null);
@@ -233,5 +246,9 @@ public class Backend implements BackendConf {
 	
 	public String getEmail() {
 		return mData.getEmail();
+	}
+
+	public int getActorId() {
+		return mData.getActorId();
 	}
 }

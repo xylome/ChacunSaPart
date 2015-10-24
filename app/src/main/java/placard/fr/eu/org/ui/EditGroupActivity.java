@@ -1,22 +1,49 @@
 package placard.fr.eu.org.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import placard.fr.eu.org.adapters.PartAdapter;
+import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.beans.Dividor;
+import placard.fr.eu.org.chacunsapart.backend.beans.Group;
+import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.org.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
 import placard.fr.eu.org.chacunsaparttesteur.R;
 
-public class EditGroupActivity extends AppCompatActivity {
+public class EditGroupActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, BackendListener{
+
+    private static final int MIN_GROUP_NAME_SIZE = 3;
 
     private static final String TAG = EditGroupActivity.class.getSimpleName();
+
     private Spinner mSpinner;
+
+    private Button mOk;
+
+    private Button mCancel;
+
+    private TextView mGroupName;
+
+    private Dividor mSelectedDividor;
+
+    private TextWatcher mOkButtonEnabler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +52,43 @@ public class EditGroupActivity extends AppCompatActivity {
 
         mSpinner = (Spinner) findViewById(R.id.edit_group_parts);
 
- //       ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
- //               R.array.parts, android.R.layout.simple_spinner_item);
+        mOk = (Button) findViewById(R.id.edit_group_ok_btn);
+        mOk.setOnClickListener(this);
+        mOk.setEnabled(false);
 
- //       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mCancel = (Button) findViewById(R.id.edit_group_cancel_btn);
+        mCancel.setOnClickListener(this);
+
+        mGroupName = (TextView) findViewById(R.id.edit_group_name_tv);
 
         PartAdapter adapter = new PartAdapter(this, android.R.layout.simple_spinner_item);
 
         mSpinner.setAdapter(adapter);
 
+        mSpinner.setOnItemSelectedListener(this);
+
+        mOkButtonEnabler = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length() < MIN_GROUP_NAME_SIZE) {
+                    mOk.setEnabled(false);
+                } else {
+                    mOk.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+
+        mGroupName.addTextChangedListener(mOkButtonEnabler);
     }
 
     public static Intent getIntent(Context c) {
@@ -61,5 +116,50 @@ public class EditGroupActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        Log.d(TAG, "selected pos is: " + pos);
+        mSelectedDividor = (Dividor) parent.getSelectedItem();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.d(TAG, "Clicked is: " + view.getId());
+        switch (view.getId()) {
+            case R.id.edit_group_ok_btn:
+                Log.d(TAG, "Have to create a group name is: " + mGroupName.getText() + ", min part is: " + mSelectedDividor.getValue());
+                mOk.setEnabled(false);
+                mCancel.setEnabled(false);
+                Group newGroup = new Group(mGroupName.getText().toString(), mSelectedDividor.getValue(), Backend.getInstance(getApplicationContext()).getActorId());
+                Backend.getInstance(getApplicationContext()).createGroup(this, newGroup);
+                break;
+            case R.id.edit_group_cancel_btn:
+                this.finish();
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onBackendResponse(BackendObject bo) {
+        // Succes !! Go away.
+        setResult(Activity.RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void onBackendError(BackendException be) {
+        Log.d(TAG, "Creation failed: " + be.getMessage());
+        mOk.setEnabled(true);
+        mCancel.setEnabled(true);
     }
 }

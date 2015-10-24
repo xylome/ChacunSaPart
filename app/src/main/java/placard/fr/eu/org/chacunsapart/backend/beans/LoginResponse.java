@@ -11,7 +11,7 @@ public class LoginResponse extends BackendObject {
 	private String mNick;
 	
 	@SerializedName("actor_id")
-	private String mActorId;
+	private int mActorId;
 	
 	@SerializedName("email")
 	private String mEmail;
@@ -39,11 +39,11 @@ public class LoginResponse extends BackendObject {
 		this.mNick = nick;
 	}
 
-	public String getActorId() {
+	public int getActorId() {
 		return mActorId;
 	}
 
-	public void setActorId(String actorId) {
+	public void setActorId(int actorId) {
 		this.mActorId = actorId;
 	}
 

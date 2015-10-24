@@ -23,6 +23,7 @@
     <!--</android.support.design.widget.TextInputLayout>-->
 
     <EditText
+        android:id="@+id/edit_group_name_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_group_name"
@@ -62,6 +63,7 @@
         android:gravity="right"
         >
         <Button
+            android:id="@+id/edit_group_ok_btn"
             android:layout_marginRight="8dp"
             android:paddingRight="8dp"
             android:layout_width="wrap_content"
@@ -69,6 +71,7 @@
             android:text="@string/button_ok"
             />
         <Button
+            android:id="@+id/edit_group_cancel_btn"
             android:layout_marginRight="8dp"
             android:paddingRight="8dp"
             android:layout_width="wrap_content"

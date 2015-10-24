@@ -25,6 +25,12 @@ public class Group implements Parcelable {
 		
 	}
 
+	public Group(String name, int fraction, int creator_id) {
+        mName = name;
+        mFraction = fraction;
+        mCreatorId = creator_id;
+    }
+
 	public int getId() {
 		return mId;
 	}

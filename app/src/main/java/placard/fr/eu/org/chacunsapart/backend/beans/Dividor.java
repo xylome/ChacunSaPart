@@ -19,4 +19,8 @@ public class Dividor {
         }
     }
 
+    public int getValue() {
+        return mVal;
+    }
+
 }

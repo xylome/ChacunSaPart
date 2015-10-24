@@ -65,12 +65,12 @@ public class DataManager {
 			writeString(NICK, id);
 		}
 		
-		public String getActorId() {
-			return mPref.getString(ACTOR_ID, null);
+		public int getActorId() {
+			return mPref.getInt(ACTOR_ID, -1);
 		}
 		
-		public void writeActorId(String id) {
-			writeString(ACTOR_ID, id);
+		public void writeActorId(int id) {
+			writeInt(ACTOR_ID, id);
 		}
 		
 		public String getEmail() {

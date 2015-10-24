@@ -5,6 +5,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.conf.BackendConf;
 
 public class BackendQuery implements BackendConf {
@@ -83,6 +84,23 @@ public class BackendQuery implements BackendConf {
 		}
 		return result;
 	}
+
+	public static String buildCreateGroupParams(Group group) {
+        String result = null;
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put(FIELD_GROUP_NAME, group.getName());
+            obj.put(FIELD_GROUP_FRACTION, group.getFraction());
+            obj.put(FIELD_CREATOR_ACTOR_ID, group.getCreatorId());
+
+            result = obj.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return result;
+    }
 
 	public static String buildGetExpensesParams(int group_id) {
 		String result = null;

@@ -9,11 +9,15 @@ public interface BackendConf {
 	public static final String ACTION_MYGROUPS = "my_groups";
 	public static final String ACTION_GET_EXPENSES = "get_expenses";
 	public static final String ACTION_GET_BALANCES = "get_balances";
+	public static final String ACTION_CREATE_GROUP = "create_group";
 
 	public static final String FIELD_EMAIL = "email";
 	public static final String FIELD_PASSWORD = "password";
 	public static final String FIELD_ACCOUNT_ID = "account_id";
 	public static final String FIELD_GROUP_ID = "group_id";
+    public static final String FIELD_GROUP_NAME = "group_name";
+    public static final String FIELD_CREATOR_ACTOR_ID = "creator_actor_id";
+    public static final String FIELD_GROUP_FRACTION = "group_fraction";
 
 	public static final String CACHE_MYGROUPS = "cache_mygroups";
     public static final String CACHE_EXPENSES = "cache_expenses";
