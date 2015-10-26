@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
         mFab = (FloatingActionButton) findViewById(R.id.my_groups_fab);
 
         mFab.setOnClickListener(this);
-
+        mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_blue)));
 		getSupportActionBar().setTitle(R.string.title_activity_my_groups);
 	}
 

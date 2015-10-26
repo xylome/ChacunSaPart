@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Group implements Parcelable {
 	@SerializedName("group_id")
 	private int mId;
@@ -20,7 +22,9 @@ public class Group implements Parcelable {
 	
 	@SerializedName("creator_nick")
 	private String mCreatorNick;
-	
+
+    private GroupExpenses mGroupExpenses;
+
 	public Group() {
 		
 	}
@@ -70,6 +74,14 @@ public class Group implements Parcelable {
 	public void setCreatorNick(String mCreatorNick) {
 		this.mCreatorNick = mCreatorNick;
 	}
+
+    public void setGroupExpenses(GroupExpenses ge) {
+        mGroupExpenses = ge;
+    }
+
+    public GroupExpenses getGroupExpenses() {
+        return mGroupExpenses;
+    }
 
 	public String toString() {
 		return mName;
