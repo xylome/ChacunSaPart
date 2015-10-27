@@ -87,6 +87,10 @@ public class Group implements Parcelable {
 		return mName;
 	}
 
+	public Expense getExpense(int expense_id) {
+        return mGroupExpenses.getExpense(expense_id);
+    }
+
 	public Group(Parcel in) {
         this.mId = in.readInt();
         this.mName = in.readString();

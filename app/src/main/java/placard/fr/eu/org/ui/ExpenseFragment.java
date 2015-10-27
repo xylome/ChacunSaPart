@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import placard.fr.eu.org.adapters.ExpenseAdapter;
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
 import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
@@ -124,6 +126,12 @@ public class ExpenseFragment extends Fragment implements BackendListener {
 
         if (ge.getExpenses() != null) {
             mExpensesLV.setAdapter(new ExpenseAdapter(getActivity().getApplicationContext(), mGroup));
+            mExpensesLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                   startActivity(EditExpenseActivity.getIntent(getActivity().getApplicationContext(), ((Expense) adapterView.getItemAtPosition(i)).getId(), mGroup));
+                }
+            });
         } else {
             Toast.makeText(getActivity().getApplicationContext(), "Expenses null", Toast.LENGTH_SHORT).show();
         }

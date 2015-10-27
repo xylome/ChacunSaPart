@@ -3,6 +3,7 @@ package placard.fr.eu.org.adapters;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,43 +52,51 @@ public class ExpenseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
-        TextView name = null;
-        TextView amount = null;
-        TextView whole_parts = null;
-        TextView decim_parts = null;
-
-
         if (view == null) {
             LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = (LinearLayout) li.inflate(R.layout.item_expense, null);
-            LinearLayout parts_lv = (LinearLayout) view.findViewById(R.id.item_expense_parts);
-            name = (TextView) view.findViewById(R.id.item_expense_name);
-            amount = (TextView) view.findViewById(R.id.item_expense_amount);
-            whole_parts = (TextView) view.findViewById(R.id.item_expense_whole_parts);
-            decim_parts = (TextView) view.findViewById(R.id.item_expense_decim_parts);
+
+            ViewHolder vh = new ViewHolder();
+            vh.parts_lv = (LinearLayout) view.findViewById(R.id.item_expense_parts);
+            vh.name = (TextView) view.findViewById(R.id.item_expense_name);
+            vh.amount = (TextView) view.findViewById(R.id.item_expense_amount);
+            vh.whole_parts = (TextView) view.findViewById(R.id.item_expense_whole_parts);
+            vh.decim_parts = (TextView) view.findViewById(R.id.item_expense_decim_parts);
+
+            view.setTag(vh);
         }
 
-        Expense e = (Expense) getItem(i);
-        LinearLayout parts_lv = (LinearLayout) view.findViewById(R.id.item_expense_parts);
+        ViewHolder vh = (ViewHolder) view.getTag();
 
-        name.setText(e.getName());
-        amount.setText(e.getAmount()+" €");
-        whole_parts.setText(e.displayWholeParts(mGroup.getFraction()));
-        decim_parts.setText(Html.fromHtml(e.displayDecimParts(mGroup.getFraction(), true)));
+        Expense e = (Expense) getItem(i);
+
+
+        vh.name.setText(e.getName());
+        vh.amount.setText(e.getAmount()+" €");
+        vh.whole_parts.setText(e.displayWholeParts(mGroup.getFraction()));
+        vh.decim_parts.setText(Html.fromHtml(e.displayDecimParts(mGroup.getFraction(), true)));
 
         if (e.displayDecimParts(mGroup.getFraction(),false).equals("")) {
-            decim_parts.setVisibility(View.GONE);
+            vh.decim_parts.setVisibility(View.GONE);
         } else {
-            decim_parts.setVisibility(View.VISIBLE);
+            vh.decim_parts.setVisibility(View.VISIBLE);
         }
 
         if(e.getNbParts() == 0) {
-            parts_lv.setBackground(mContext.getResources().getDrawable(R.drawable.nb_parts_equals_0));
+            vh.parts_lv.setBackground(mContext.getResources().getDrawable(R.drawable.nb_parts_equals_0));
         } else {
-            parts_lv.setBackground(mContext.getResources().getDrawable(R.drawable.nb_parts_supp_0));
+            vh.parts_lv.setBackground(mContext.getResources().getDrawable(R.drawable.nb_parts_supp_0));
         }
 
         return view;
     }
+
+    static class ViewHolder {
+        public LinearLayout parts_lv;
+        public TextView name;
+        public TextView amount;
+        public TextView whole_parts;
+        public TextView decim_parts;
+    }
+
 }

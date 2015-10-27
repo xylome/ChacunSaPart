@@ -34,6 +34,15 @@ public class GroupExpenses extends BackendObject {
         return expenses;
     }
 
+    public Expense getExpense(int expense_id) {
+        for (Expense e:getExpenses()) {
+            if (e.getId() == expense_id) {
+                return e;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Nb expenses: " + mExpenses.size();
