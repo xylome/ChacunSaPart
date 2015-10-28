@@ -9,35 +9,46 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import placard.fr.eu.org.chacunsapart.backend.beans.Dividors;
+import placard.fr.eu.org.chacunsapart.backend.beans.Friend;
+import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsaparttesteur.R;
 
 /**
  * Created by xylome on 21/10/2015.
  */
-public class PartAdapter extends ArrayAdapter {
+public class FriendAdapter extends ArrayAdapter {
 
     private Context mContext;
-    private Dividors mDividors = new Dividors(4);
 
-    public PartAdapter(Context context, int resource) {
+    private Friends mFriends;
+
+
+    public FriendAdapter(Context context, int resource, Friends friends) {
         super(context, resource);
+        mFriends = friends;
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        return mDividors.getCount();
+        return mFriends.getCount();
     }
 
     @Override
     public Object getItem(int i) {
-        return mDividors.getAtPos(i);
+        return mFriends.getAtPos(i);
     }
 
     @Override
     public long getItemId(int i) {
         return 0;
     }
+
+    @Override
+    public int getPosition(Object o) {
+        return mFriends.findPosbyNick((String) o);
+    }
+
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent)
@@ -47,12 +58,12 @@ public class PartAdapter extends ArrayAdapter {
         {
             //inflate your customlayout for the textview
             LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
-            row = inflater.inflate(R.layout.spinner_part_item, parent, false);
+            row = inflater.inflate(R.layout.spinner_friends_item, parent, false);
         }
         //put the data in it
-        TextView text1 = (TextView) row.findViewById(R.id.part_spinner_item_tv);
+        TextView text1 = (TextView) row.findViewById(R.id.spinner_friends_item_tv);
         //text1.setTextColor(Color.WHITE);
-        text1.setText(mDividors.display(position));
+        text1.setText(mFriends.getAtPos(position).getActorNick());
         return row;
     }
 

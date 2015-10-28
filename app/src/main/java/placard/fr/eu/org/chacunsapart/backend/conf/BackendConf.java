@@ -10,6 +10,7 @@ public interface BackendConf {
 	public static final String ACTION_GET_EXPENSES = "get_expenses";
 	public static final String ACTION_GET_BALANCES = "get_balances";
 	public static final String ACTION_CREATE_GROUP = "create_group";
+	public static final String ACTION_GET_MY_FRIENDS = "my_friends";
 
 	public static final String FIELD_EMAIL = "email";
 	public static final String FIELD_PASSWORD = "password";
@@ -22,4 +23,5 @@ public interface BackendConf {
 	public static final String CACHE_MYGROUPS = "cache_mygroups";
     public static final String CACHE_EXPENSES = "cache_expenses";
     public static final String CACHE_BALANCES = "cache_balances";
+	public static final String CACHE_FRIENDS = "cache_friends";
 }

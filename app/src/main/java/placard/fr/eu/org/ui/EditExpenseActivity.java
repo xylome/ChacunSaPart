@@ -9,15 +9,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import placard.fr.eu.org.adapters.FriendAdapter;
 import placard.fr.eu.org.adapters.ParticipationAdapter;
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
 import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
 import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
@@ -46,8 +49,9 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
     private EditText mExpenseAmountTV;
 
-    // TODO Add the friends spinner
     private Spinner mPayer;
+
+    private Friends mFriends;
 
     private ListView mPartsLV;
 
@@ -78,7 +82,11 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         mCancel = (Button) findViewById(R.id.edit_expense_cancel_btn);
         mCancel.setOnClickListener(this);
 
+        mPayer = (Spinner) findViewById(R.id.edit_expense_payer_spinner);
+
         Backend.getInstance(getApplicationContext()).getExpenses(this, mGroup.getId());
+
+        Backend.getInstance(getApplicationContext()).getFriends(this);
     }
 
     public static Intent getIntent(Context c, int expense_id, Group group) {
@@ -119,6 +127,13 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
             mExpenseNameTV.setText(mExpense.getName());
             mExpenseAmountTV.setText(mExpense.getAmount() + "");
             mPartsLV.setAdapter(new ParticipationAdapter(getApplicationContext(), mGroup, mExpense.getParticipations()));
+        }
+
+        if (bo instanceof Friends) {
+            mFriends = (Friends) bo;
+            Log.d(TAG, "Received some friends:" + mFriends.getCount());
+            mPayer.setAdapter(new FriendAdapter(this, android.R.layout.simple_spinner_item, mFriends));
+            mPayer.setSelection(((ArrayAdapter)mPayer.getAdapter()).getPosition(mExpense.getPayerNick()));
         }
     }
 

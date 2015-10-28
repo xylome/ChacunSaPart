@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupBalances;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
@@ -34,7 +35,7 @@ public class Backend implements BackendConf {
 	
 	private DataManager mData;
 
-    private long mCacheDuration = 1000 * 60; // one minute
+    private long mCacheDuration = 1000 * 60; // one seconde
 
 	private static Backend mInstance;
 	
@@ -106,6 +107,13 @@ public class Backend implements BackendConf {
 
         BackendObject bo = new GroupExpenses();
         myBackendGeneric(caller, bo, ACTION_GET_EXPENSES, params, group_id, false);
+    }
+
+	public void getFriends(BackendListener caller) {
+        String params = BackendQuery.buildGetMyFriendsParams(mData.getAccountId());
+
+        BackendObject bo = new Friends();
+        myBackendGeneric(caller, bo, ACTION_GET_MY_FRIENDS, params, -1, false);
     }
 
     public void getBalances(BackendListener caller, int group_id) {

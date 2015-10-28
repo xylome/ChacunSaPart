@@ -20,6 +20,12 @@ public class Expense {
     @SerializedName("is_payback")
     private int mIsPayback;
 
+    @SerializedName("payer_id")
+    private int mPayerId;
+
+    @SerializedName("payer_nick")
+    private String mPayerNick;
+
     @SerializedName("participations")
     private ArrayList<Participation> mParticipations = new ArrayList<Participation>();
 
@@ -50,6 +56,14 @@ public class Expense {
 
     public float getAmount() {
         return mAmount;
+    }
+
+    public int getPayerId() {
+        return mPayerId;
+    }
+
+    public String getPayerNick() {
+        return mPayerNick;
     }
 
     public ArrayList<Participation> getParticipations() {

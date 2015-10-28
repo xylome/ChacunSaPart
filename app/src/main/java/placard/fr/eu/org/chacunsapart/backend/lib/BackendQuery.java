@@ -85,6 +85,21 @@ public class BackendQuery implements BackendConf {
 		return result;
 	}
 
+
+	public static String buildGetMyFriendsParams(String account_id) {
+		String result = null;
+
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put(FIELD_ACCOUNT_ID, account_id);
+			result = obj.toString();
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage());
+		}
+		return result;
+	}
+
+
 	public static String buildCreateGroupParams(Group group) {
         String result = null;
 

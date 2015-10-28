@@ -42,6 +42,10 @@ public class BackendCache implements BackendConf {
         if (backendVerb.equals(ACTION_GET_BALANCES)) {
             mWhat = CACHE_BALANCES;
         }
+
+        if (backendVerb.equals(ACTION_GET_MY_FRIENDS)) {
+            mWhat = CACHE_FRIENDS;
+        }
         Log.d(TAG, "What is now: " + mWhat);
     }
 
