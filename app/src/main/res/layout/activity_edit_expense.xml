@@ -27,20 +27,32 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_expense_name"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:singleLine="true"
         />
 
-
-    <View
+    <EditText
+        android:id="@+id/edit_expense_amount_tv"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_expense_amount"
+        android:textSize="20sp"
+        android:singleLine="true"
+        android:inputType="numberDecimal"
         />
+
+    <ListView
+        android:id="@+id/edit_expense_participations_lv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </ListView>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
+        android:layout_marginBottom="16dp"
         >
         <Button
             android:id="@+id/edit_expense_ok_btn"
@@ -59,10 +71,6 @@
             android:text="@string/button_cancel"
             />
     </LinearLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+
 </LinearLayout>
 

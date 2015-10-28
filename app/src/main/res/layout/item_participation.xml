@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/item_participation_actor"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:ellipsize="end"
+            android:singleLine="true"
+            />
+        <TextView
+            android:id="@+id/item_participation_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        ></View>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/item_participation_parts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/item_participation_whole_parts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginRight="3sp"
+
+            />
+            <TextView
+                android:id="@+id/item_participation_decim_parts"
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="7sp"
+
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

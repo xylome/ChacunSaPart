@@ -5,11 +5,17 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import placard.fr.eu.org.adapters.ParticipationAdapter;
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
 import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
@@ -20,11 +26,13 @@ import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
 import placard.fr.eu.org.chacunsapart.backend.listeners.BackendResponse;
 import placard.fr.eu.org.chacunsaparttesteur.R;
 
-public class EditExpenseActivity extends AppCompatActivity implements BackendListener {
+public class EditExpenseActivity extends AppCompatActivity implements BackendListener, View.OnClickListener {
 
     private static final String EXPENSE_FIELD = "expense_field";
 
     private static final String GROUP_FIELD = "group_field";
+
+    private static final String TAG = EditExpenseActivity.class.getSimpleName();
 
     private int mExpenseId;
 
@@ -35,6 +43,17 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     private ActionBar mActionBar;
 
     private EditText mExpenseNameTV;
+
+    private EditText mExpenseAmountTV;
+
+    // TODO Add the friends spinner
+    private Spinner mPayer;
+
+    private ListView mPartsLV;
+
+    private Button mOk;
+
+    private Button mCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +67,16 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         mActionBar.setTitle(R.string.edit_expense);
 
         mExpenseNameTV = (EditText) findViewById(R.id.edit_expense_name_tv);
-        //mExpenseNameTV.setText(mExpense.getName());
+
+        mExpenseAmountTV = (EditText) findViewById(R.id.edit_expense_amount_tv);
+
+        mPartsLV = (ListView) findViewById(R.id.edit_expense_participations_lv);
+
+        mOk = (Button) findViewById(R.id.edit_expense_ok_btn);
+        mOk.setOnClickListener(this);
+
+        mCancel = (Button) findViewById(R.id.edit_expense_cancel_btn);
+        mCancel.setOnClickListener(this);
 
         Backend.getInstance(getApplicationContext()).getExpenses(this, mGroup.getId());
     }
@@ -85,13 +113,30 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
     @Override
     public void onBackendResponse(BackendObject bo) {
-        mGroup.setGroupExpenses((GroupExpenses)bo);
-        mExpense = mGroup.getExpense(mExpenseId);
-        mExpenseNameTV.setText(mExpense.getName());
+        if (bo instanceof GroupExpenses) {
+            mGroup.setGroupExpenses((GroupExpenses) bo);
+            mExpense = mGroup.getExpense(mExpenseId);
+            mExpenseNameTV.setText(mExpense.getName());
+            mExpenseAmountTV.setText(mExpense.getAmount() + "");
+            mPartsLV.setAdapter(new ParticipationAdapter(getApplicationContext(), mGroup, mExpense.getParticipations()));
+        }
     }
 
     @Override
     public void onBackendError(BackendException be) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.d(TAG, "Clicked view: " + view);
+        switch(view.getId()) {
+            case R.id.edit_expense_cancel_btn:
+                finish();
+                break;
+            case R.id.edit_expense_ok_btn:
+
+                break;
+        }
     }
 }

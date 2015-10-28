@@ -22,4 +22,8 @@ public class Participation {
     public int getParts() {
         return mParts;
     }
+
+    public String getGuestNick() {
+        return mGuestNick;
+    }
 }
