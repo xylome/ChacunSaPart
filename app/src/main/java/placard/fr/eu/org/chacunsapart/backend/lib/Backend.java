@@ -35,7 +35,7 @@ public class Backend implements BackendConf {
 	
 	private DataManager mData;
 
-    private long mCacheDuration = 1000 * 60; // one seconde
+    private long mCacheDuration = 1000 * 60 * 1; // one minute
 
 	private static Backend mInstance;
 	

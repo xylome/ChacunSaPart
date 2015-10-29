@@ -28,6 +28,9 @@
     <string name="edit_expense_euro">€</string>
     <string name="edit_expense_paid_by">payés par</string>
 
+
+    <string name="button_plus">+</string>
+    <string name="button_minus">-</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">ANNULER</string>
     <string name="title_activity_edit_expense">EditExpenseActivity</string>

@@ -3,6 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:gravity="center_vertical"
     >
 
     <LinearLayout
@@ -12,7 +13,7 @@
         >
         <TextView
             android:id="@+id/item_participation_actor"
-            android:layout_width="270dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:ellipsize="end"
@@ -31,10 +32,19 @@
         android:layout_height="1dp"
         android:layout_weight="1"
         ></View>
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/item_participation_minus_button"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="@string/button_minus"
+        />
+
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
         <LinearLayout
             android:id="@+id/item_participation_parts"
             android:layout_width="wrap_content"
@@ -64,6 +74,11 @@
 
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/item_participation_plus_button"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_plus"
+        />
 
 </LinearLayout>
