@@ -110,7 +110,9 @@ public class Participation {
     }
 
     public void subPart() {
-        mParts --;
+        if (mParts > 0) {
+            mParts--;
+        }
     }
 }
 
