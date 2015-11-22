@@ -12,12 +12,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
 import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupBalances;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
 import placard.fr.eu.org.chacunsapart.backend.beans.Groups;
 import placard.fr.eu.org.chacunsapart.backend.beans.LoginResponse;
+import placard.fr.eu.org.chacunsapart.backend.beans.Participation;
 import placard.fr.eu.org.chacunsapart.backend.conf.BackendConf;
 import placard.fr.eu.org.chacunsapart.backend.data.DataManager;
 import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
@@ -109,6 +111,21 @@ public class Backend implements BackendConf {
         myBackendGeneric(caller, bo, ACTION_GET_EXPENSES, params, group_id, false);
     }
 
+
+	public void updateParticipation(BackendListener caller, int expense_id, Participation participation) {
+        String params = BackendQuery.buildUpdateParticipationParamas(expense_id, participation);
+
+        BackendObject bo = new Participation();
+        myBackendGeneric(caller, bo, ACTION_UPDATE_PARTICIPATION, params, -1, true);
+    }
+
+    public void deleteParticipation(BackendListener caller, int participation_id) {
+        String params = BackendQuery.buildDeleteParticipationParams(participation_id);
+
+        BackendObject bo = new Participation();
+        myBackendGeneric(caller, bo, ACTION_DELETE_PARTICIPATION, params, -1, true);
+    }
+
 	public void getFriends(BackendListener caller) {
         String params = BackendQuery.buildGetMyFriendsParams(mData.getAccountId());
 
@@ -165,7 +182,8 @@ public class Backend implements BackendConf {
                     return;
                 }
 
-                if (!verb.equals(ACTION_CREATE_GROUP)) {
+                if ((!verb.equals(ACTION_CREATE_GROUP)) && (!verb.equals(ACTION_UPDATE_PARTICIPATION)) && (!verb.equals(ACTION_DELETE_PARTICIPATION))) {
+                    Log.e(TAG, "Writing cache " + verb);
                     bc.writeToCache(result, cache_id);
                 }
 
@@ -259,4 +277,10 @@ public class Backend implements BackendConf {
 	public int getActorId() {
 		return mData.getActorId();
 	}
+
+    public void invalidateExpenseCache(int group_id) {
+        BackendCache bc = new BackendCache(mContext);
+
+        bc.invalidate(ACTION_GET_EXPENSES, group_id);
+    }
 }

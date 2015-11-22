@@ -119,4 +119,14 @@ public class BackendCache implements BackendConf {
         reader.close();
         return sb.toString();
     }
+
+    public void invalidate(String verb, int group_id) {
+
+        setWhat(verb);
+        if (cacheExists(group_id)) {
+            File dest = new File(mBasePath, group_id + "/" + mWhat);
+            dest.delete();
+            Log.d(TAG, "deleting file: " + dest.getName());
+        }
+    }
 }

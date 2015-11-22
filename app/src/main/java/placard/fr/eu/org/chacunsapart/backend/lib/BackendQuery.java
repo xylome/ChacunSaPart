@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
+import placard.fr.eu.org.chacunsapart.backend.beans.Participation;
 import placard.fr.eu.org.chacunsapart.backend.conf.BackendConf;
 
 public class BackendQuery implements BackendConf {
@@ -143,5 +144,37 @@ public class BackendQuery implements BackendConf {
 		}
 
 		return result;
+	}
+
+	public static String buildUpdateParticipationParamas(int expense_id, Participation particpation) {
+        String result = null;
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put(FIELD_EXPENSE_ID, expense_id);
+            obj.put(FIELD_GUEST_ACTOR_ID, particpation.getGuestId());
+            obj.put(FIELD_PARTS, particpation.getParts());
+            obj.put(QUERY_ABSOLUTE_PARTS, 1);
+            result = obj.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return result;
+
+    }
+
+	public static String buildDeleteParticipationParams(int participation_id) {
+		String result = null;
+
+        JSONObject obj = new JSONObject();
+
+        try {
+            obj.put(FIELD_PARTICIPATION_ID, participation_id);
+            result = obj.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return result;
 	}
 }

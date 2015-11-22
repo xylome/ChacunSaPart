@@ -35,6 +35,7 @@
         <activity
             android:name="placard.fr.eu.org.ui.EditExpenseActivity"
             android:label="@string/title_activity_edit_expense"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustNothing"
             >
         </activity>

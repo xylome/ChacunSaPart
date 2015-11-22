@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import placard.fr.eu.org.adapters.FriendAdapter;
 import placard.fr.eu.org.adapters.ParticipationAdapter;
@@ -23,6 +25,7 @@ import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
 import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
+import placard.fr.eu.org.chacunsapart.backend.beans.Participation;
 import placard.fr.eu.org.chacunsapart.backend.exceptions.BackendException;
 import placard.fr.eu.org.chacunsapart.backend.lib.Backend;
 import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
@@ -43,8 +46,6 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
     private Expense mExpense;
 
-    private ActionBar mActionBar;
-
     private EditText mExpenseNameTV;
 
     private EditText mExpenseAmountTV;
@@ -55,20 +56,26 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
     private ListView mPartsLV;
 
-    private Button mOk;
+    private android.support.v7.widget.Toolbar mToolbar;
 
-    private Button mCancel;
+    private int mParticipationsToProcess;
+    private int mParticipationsProcessed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_expense);
 
-        mActionBar = getSupportActionBar();
+
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(mToolbar);
+
+        getSupportActionBar().setTitle(R.string.edit_expense);
+
         Bundle extras = getIntent().getExtras();
         mGroup = extras.getParcelable(GROUP_FIELD);
         mExpenseId = extras.getInt(EXPENSE_FIELD);
-        mActionBar.setTitle(R.string.edit_expense);
+
 
         mExpenseNameTV = (EditText) findViewById(R.id.edit_expense_name_tv);
 
@@ -76,17 +83,9 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
         mPartsLV = (ListView) findViewById(R.id.edit_expense_participations_lv);
 
-        mOk = (Button) findViewById(R.id.edit_expense_ok_btn);
-        mOk.setOnClickListener(this);
-
-        mCancel = (Button) findViewById(R.id.edit_expense_cancel_btn);
-        mCancel.setOnClickListener(this);
-
         mPayer = (Spinner) findViewById(R.id.edit_expense_payer_spinner);
 
         Backend.getInstance(getApplicationContext()).getExpenses(this, mGroup.getId());
-
-        Backend.getInstance(getApplicationContext()).getFriends(this);
     }
 
     public static Intent getIntent(Context c, int expense_id, Group group) {
@@ -115,7 +114,26 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
             return true;
         }
 
+        if (id == R.id.action_ok) {
+            updateExpense();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateExpense() {
+        mParticipationsToProcess = 0;
+        mParticipationsProcessed = 0;
+
+        for (Participation currentPart : ((ParticipationAdapter) mPartsLV.getAdapter()).getParticipations()) {
+            mParticipationsToProcess++;
+            Log.d(TAG, "currentPart: " + currentPart.getGuestNick() + " partNb: " + currentPart.getParts());
+            if (currentPart.getParts() > 0) {
+                Backend.getInstance(this).updateParticipation(this, mExpenseId, currentPart);
+            } else {
+                Backend.getInstance(this).deleteParticipation(this, currentPart.getId());
+            }
+        }
     }
 
 
@@ -127,13 +145,26 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
             mExpenseNameTV.setText(mExpense.getName());
             mExpenseAmountTV.setText(mExpense.getAmount() + "");
             mPartsLV.setAdapter(new ParticipationAdapter(getApplicationContext(), mGroup, mExpense.getParticipations()));
+            Backend.getInstance(getApplicationContext()).getFriends(this);
         }
 
         if (bo instanceof Friends) {
             mFriends = (Friends) bo;
             Log.d(TAG, "Received some friends:" + mFriends.getCount());
             mPayer.setAdapter(new FriendAdapter(this, android.R.layout.simple_spinner_item, mFriends));
-            mPayer.setSelection(((ArrayAdapter)mPayer.getAdapter()).getPosition(mExpense.getPayerNick()));
+            mPayer.setSelection(((ArrayAdapter) mPayer.getAdapter()).getPosition(mExpense.getPayerNick()));
+        }
+
+        if (bo instanceof Participation) {
+            Participation p = (Participation) bo;
+            Log.d(TAG, "Received participation update:" + p.getId() );
+            mParticipationsProcessed++;
+
+            if (mParticipationsProcessed == mParticipationsToProcess) {
+                Toast.makeText(this, R.string.edit_expense_update_expense_ok, Toast.LENGTH_SHORT).show();
+                Backend.getInstance(this).invalidateExpenseCache(mGroup.getId());
+                this.finish();
+            }
         }
     }
 
@@ -145,13 +176,6 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     @Override
     public void onClick(View view) {
         Log.d(TAG, "Clicked view: " + view);
-        switch(view.getId()) {
-            case R.id.edit_expense_cancel_btn:
-                finish();
-                break;
-            case R.id.edit_expense_ok_btn:
 
-                break;
-        }
     }
 }

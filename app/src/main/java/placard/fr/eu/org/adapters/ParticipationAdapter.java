@@ -34,6 +34,10 @@ public class ParticipationAdapter extends BaseAdapter {
         mContext = c;
     }
 
+    public ArrayList<Participation> getParticipations() {
+        return mParticipations;
+    }
+
     @Override
     public int getCount() {
         return mParticipations.size();
@@ -95,6 +99,13 @@ public class ParticipationAdapter extends BaseAdapter {
 
                 whole_parts_copy.setText(p.displayWholeParts(mGroup.getFraction()));
                 decim_parts_copy.setText(Html.fromHtml(p.displayDecimParts(mGroup.getFraction(),true)));
+
+
+                if(p.getParts() == 0) {
+                    parts_lv_copy.setBackground(mContext.getResources().getDrawable(R.drawable.nb_parts_equals_0));
+                } else {
+                    parts_lv_copy.setBackground(mContext.getResources().getDrawable(R.drawable.nb_parts_supp_0));
+                }
             }
         };
 

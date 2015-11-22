@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by xylome on 22/09/15.
  */
-public class Participation {
+public class Participation extends BackendObject {
     private static final String TAG = Participation.class.getSimpleName();
 
     @SerializedName("participation_id")
@@ -24,9 +24,20 @@ public class Participation {
     @SerializedName("parts")
     private int mParts;
 
+    public int getId() {
+        return mId;
+    }
 
     public int getParts() {
         return mParts;
+    }
+
+    public int getGuestId() {
+        return mGuestId;
+    }
+
+    public String getNick() {
+        return mGuestNick;
     }
 
     public String getGuestNick() {

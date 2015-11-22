@@ -81,11 +81,18 @@ public class ExpenseFragment extends Fragment implements BackendListener {
 
         mBackend = Backend.getInstance(getActivity().getApplicationContext());
 
-        mBackend.getExpenses(this, mGroup.getId());
+
 
         return v;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: requesting getExpense");
+        mBackend.getExpenses(this, mGroup.getId());
+    }
 
     @Override
     public void onAttach(Activity activity) {
