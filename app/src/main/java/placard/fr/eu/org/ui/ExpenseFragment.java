@@ -27,7 +27,7 @@ import placard.fr.eu.org.ui.listener.ExpenseFragmentListener;
 /**
  *
  */
-public class ExpenseFragment extends Fragment implements BackendListener {
+public class ExpenseFragment extends Fragment implements BackendListener, View.OnClickListener {
 
     private static final String TAG = ExpenseFragment.class.getSimpleName() ;
 
@@ -77,6 +77,7 @@ public class ExpenseFragment extends Fragment implements BackendListener {
 
         mFab = (FloatingActionButton) v.findViewById(R.id.expense_fab);
         mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_orange)));
+        mFab.setOnClickListener(this);
         mExpensesLV = (ListView) v.findViewById(R.id.expense_lv);
 
         mBackend = Backend.getInstance(getActivity().getApplicationContext());
@@ -148,4 +149,12 @@ public class ExpenseFragment extends Fragment implements BackendListener {
 
     }
 
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
+        if(id == R.id.expense_fab) {
+            startActivity(EditExpenseActivity.getNewExpenseIntent(getActivity().getApplicationContext(), mGroup));
+        }
+    }
 }

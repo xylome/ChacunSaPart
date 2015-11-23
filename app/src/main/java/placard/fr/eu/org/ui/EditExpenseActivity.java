@@ -18,10 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.util.ArrayList;
+
 import placard.fr.eu.org.adapters.FriendAdapter;
 import placard.fr.eu.org.adapters.ParticipationAdapter;
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
 import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.org.chacunsapart.backend.beans.Friend;
 import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupExpenses;
@@ -38,6 +41,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
     private static final String GROUP_FIELD = "group_field";
 
+    private static final String NEW_EXPENSE_FIELD = "new_expense_field";
+
     private static final String TAG = EditExpenseActivity.class.getSimpleName();
 
     private int mExpenseId;
@@ -45,6 +50,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     private Group mGroup;
 
     private Expense mExpense;
+
+    private boolean mNewGroup;
 
     private EditText mExpenseNameTV;
 
@@ -73,9 +80,12 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         getSupportActionBar().setTitle(R.string.edit_expense);
 
         Bundle extras = getIntent().getExtras();
+        mNewGroup = extras.getBoolean(NEW_EXPENSE_FIELD);
         mGroup = extras.getParcelable(GROUP_FIELD);
-        mExpenseId = extras.getInt(EXPENSE_FIELD);
 
+        if (!mNewGroup) {
+            mExpenseId = extras.getInt(EXPENSE_FIELD);
+        }
 
         mExpenseNameTV = (EditText) findViewById(R.id.edit_expense_name_tv);
 
@@ -85,13 +95,25 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
         mPayer = (Spinner) findViewById(R.id.edit_expense_payer_spinner);
 
-        Backend.getInstance(getApplicationContext()).getExpenses(this, mGroup.getId());
+        if (!mNewGroup) {
+            Backend.getInstance(getApplicationContext()).getExpenses(this, mGroup.getId());
+        } else {
+            Backend.getInstance(getApplicationContext()).getFriends(this);
+        }
     }
 
     public static Intent getIntent(Context c, int expense_id, Group group) {
         Intent i = new Intent(c, EditExpenseActivity.class);
         i.putExtra(EXPENSE_FIELD, expense_id);
         i.putExtra(GROUP_FIELD, group);
+        i.putExtra(NEW_EXPENSE_FIELD, false);
+        return i;
+    }
+
+    public static Intent getNewExpenseIntent(Context c, Group group) {
+        Intent i = new Intent(c, EditExpenseActivity.class);
+        i.putExtra(GROUP_FIELD, group);
+        i.putExtra(NEW_EXPENSE_FIELD, true);
         return i;
     }
 
@@ -115,10 +137,19 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         }
 
         if (id == R.id.action_ok) {
-            updateExpense();
+            if (!mNewGroup) {
+                updateExpense();
+            } else {
+                createExpense();
+            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createExpense() {
+
+
     }
 
     private void updateExpense() {
@@ -152,7 +183,16 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
             mFriends = (Friends) bo;
             Log.d(TAG, "Received some friends:" + mFriends.getCount());
             mPayer.setAdapter(new FriendAdapter(this, android.R.layout.simple_spinner_item, mFriends));
-            mPayer.setSelection(((ArrayAdapter) mPayer.getAdapter()).getPosition(mExpense.getPayerNick()));
+
+            if (!mNewGroup) {
+                mPayer.setSelection(((ArrayAdapter) mPayer.getAdapter()).getPosition(mExpense.getPayerNick()));
+                } else {
+                    ArrayList<Participation> suggestedFriends = new ArrayList<Participation>();
+                    for (Friend currFriend : mFriends.getFriends()) {
+                        suggestedFriends.add(new Participation(currFriend.getActorId(), 0, currFriend.getActorNick()));
+                    }
+                    mPartsLV.setAdapter(new ParticipationAdapter(getApplicationContext(), mGroup, suggestedFriends));
+            }
         }
 
         if (bo instanceof Participation) {

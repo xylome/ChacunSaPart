@@ -2,6 +2,7 @@ package placard.fr.eu.org.chacunsapart.backend.beans;
 
 
 import android.provider.Telephony;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
@@ -11,6 +12,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Participation extends BackendObject {
     private static final String TAG = Participation.class.getSimpleName();
+
+    private  static final int NEW_GUEST_ID = 0;
 
     @SerializedName("participation_id")
     private int mId;
@@ -23,6 +26,23 @@ public class Participation extends BackendObject {
 
     @SerializedName("parts")
     private int mParts;
+
+    public Participation() {
+
+    }
+
+    public Participation(int guest_id, int parts, String nick) {
+        mGuestId = guest_id;
+        mParts = parts;
+
+        if (!TextUtils.isEmpty(nick)) {
+            mGuestNick = nick;
+        }
+
+        if (guest_id == NEW_GUEST_ID) {
+            mGuestNick = nick;
+        }
+    }
 
     public int getId() {
         return mId;
