@@ -29,6 +29,9 @@
     <string name="edit_expense_euro">€</string>
     <string name="edit_expense_paid_by">payés par</string>
     <string name="edit_expense_update_expense_ok">Dépense mise à jour</string>
+    <string name="edit_expense_create_expense_ok">Dépense créée</string>
+    <string name="edit_expense_incorrect_amount">Montant incorrect</string>
+    <string name="edit_expense_name_too_short">Nom trop court</string>
 
     <string name="button_plus">+</string>
     <string name="button_minus">-</string>

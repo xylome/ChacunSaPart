@@ -14,7 +14,7 @@ public interface BackendConf {
 	public static final String ACTION_GET_MY_FRIENDS = "my_friends";
     public static final String ACTION_UPDATE_PARTICIPATION = "update_participation";
 	public static final String ACTION_DELETE_PARTICIPATION = "delete_participation";
-
+	public static final String ACTION_CREATE_EXPENSE = "create_expense";
 
 	public static final String FIELD_EMAIL = "email";
 	public static final String FIELD_PASSWORD = "password";

@@ -24,6 +24,7 @@ import placard.fr.eu.org.adapters.FriendAdapter;
 import placard.fr.eu.org.adapters.ParticipationAdapter;
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
 import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.org.chacunsapart.backend.beans.ExpenseResponse;
 import placard.fr.eu.org.chacunsapart.backend.beans.Friend;
 import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
@@ -143,14 +144,29 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         }
 
         if (id == R.id.action_ok) {
-            if (!mNewGroup) {
-                updateExpense();
-            } else {
-                createExpense();
+            if (checkInputs()) {
+                if (mNewGroup) {
+                    createExpense();
+                } else {
+                    updateExpense();
+                }
             }
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean checkInputs() {
+        if (mExpenseAmountTV.getText().toString().length() < 1) {
+            Toast.makeText(this, R.string.edit_expense_incorrect_amount, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (mExpenseNameTV.getText().toString().length() < 3) {
+            Toast.makeText(this, R.string.edit_expense_name_too_short, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void createExpense() {
@@ -224,6 +240,12 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
                 Backend.getInstance(this).invalidateExpenseCache(mGroup.getId());
                 this.finish();
             }
+        }
+
+        if (bo instanceof ExpenseResponse) {
+            Toast.makeText(this, R.string.edit_expense_create_expense_ok, Toast.LENGTH_SHORT).show();
+            Backend.getInstance(this).invalidateExpenseCache(mGroup.getId());
+            this.finish();
         }
     }
 

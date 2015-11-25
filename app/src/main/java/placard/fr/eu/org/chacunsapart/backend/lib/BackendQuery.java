@@ -190,7 +190,6 @@ public class BackendQuery implements BackendConf {
 		ExpenseForBackend efb = new ExpenseForBackend(e, group_id);
 		Gson gson = new Gson();
 		result = gson.toJson(efb);
-		Log.d(TAG, "expense to GSON string is:" + result);
 		return result;
 	}
 }

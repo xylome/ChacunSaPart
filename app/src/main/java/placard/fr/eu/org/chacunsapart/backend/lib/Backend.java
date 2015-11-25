@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
 import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.org.chacunsapart.backend.beans.ExpenseResponse;
 import placard.fr.eu.org.chacunsapart.backend.beans.Friends;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.GroupBalances;
@@ -159,8 +160,8 @@ public class Backend implements BackendConf {
 
     public void createExpense(BackendListener caller, int group_id, Expense e) {
         String params = BackendQuery.buildCreateExpenseParams(group_id, e);
-        Log.d(TAG, "createExpense params:" + params);
-
+        ExpenseResponse expenseResponse = new ExpenseResponse();
+        myBackendGeneric(caller, expenseResponse, ACTION_CREATE_EXPENSE, params, -1, false);
     }
 
     public void myBackendGeneric(BackendListener caller, final BackendObject inBo, final String verb, String params, final int cache_id, boolean forceRefresh)
@@ -189,7 +190,10 @@ public class Backend implements BackendConf {
                     return;
                 }
 
-                if ((!verb.equals(ACTION_CREATE_GROUP)) && (!verb.equals(ACTION_UPDATE_PARTICIPATION)) && (!verb.equals(ACTION_DELETE_PARTICIPATION))) {
+                if ((!verb.equals(ACTION_CREATE_GROUP))
+                        && (!verb.equals(ACTION_UPDATE_PARTICIPATION))
+                        && (!verb.equals(ACTION_DELETE_PARTICIPATION))
+                        && (!verb.equals(ACTION_CREATE_EXPENSE))) {
                     Log.e(TAG, "Writing cache " + verb);
                     bc.writeToCache(result, cache_id);
                 }
