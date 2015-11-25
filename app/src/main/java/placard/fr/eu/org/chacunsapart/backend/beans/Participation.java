@@ -31,6 +31,13 @@ public class Participation extends BackendObject {
 
     }
 
+    protected Participation(Participation p) {
+        mId = p.getId();
+        mGuestNick = p.getGuestNick();
+        mGuestId = p.getGuestId();
+        mParts = p.getParts();
+    }
+
     public Participation(int guest_id, int parts, String nick) {
         mGuestId = guest_id;
         mParts = parts;

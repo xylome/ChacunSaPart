@@ -27,6 +27,7 @@ import placard.fr.eu.org.chacunsapart.backend.exceptions.BadCredentialsException
 import placard.fr.eu.org.chacunsapart.backend.exceptions.HttpConnectionException;
 import placard.fr.eu.org.chacunsapart.backend.listeners.BackendListener;
 import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.org.ui.EditExpenseActivity;
 
 public class Backend implements BackendConf {
     private static final String TAG = Backend.class.getSimpleName();
@@ -156,6 +157,12 @@ public class Backend implements BackendConf {
         myBackendGeneric(caller, bo, ACTION_CREATE_GROUP, params, -1, false);
     }
 
+    public void createExpense(BackendListener caller, int group_id, Expense e) {
+        String params = BackendQuery.buildCreateExpenseParams(group_id, e);
+        Log.d(TAG, "createExpense params:" + params);
+
+    }
+
     public void myBackendGeneric(BackendListener caller, final BackendObject inBo, final String verb, String params, final int cache_id, boolean forceRefresh)
     {
         final BackendCache bc = new BackendCache(mContext);
@@ -283,4 +290,6 @@ public class Backend implements BackendConf {
 
         bc.invalidate(ACTION_GET_EXPENSES, group_id);
     }
+
+
 }

@@ -25,8 +25,13 @@ public interface BackendConf {
     public static final String FIELD_GROUP_FRACTION = "group_fraction";
 	public static final String FIELD_EXPENSE_ID = "expense_id";
     public static final String FIELD_PARTS = "parts";
+	public static final String FIELD_PARTS_NB = "nb_parts";
     public static final String FIELD_GUEST_ACTOR_ID = "guest_actor_id";
 	public static final String FIELD_PARTICIPATION_ID = "participation_id";
+	public static final String FIELD_NAME = "name";
+	public static final String FIELD_AMOUNT = "amount";
+	public static final String FIELD_PAYER_ACTOR_ID = "payer_actor_id";
+	public static final String FIELD_GUESTS = "guests";
 
 	public static final String CACHE_MYGROUPS = "cache_mygroups";
     public static final String CACHE_EXPENSES = "cache_expenses";

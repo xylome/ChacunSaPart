@@ -23,6 +23,7 @@
     <string name="edit_group_nb_parts">Nombre de part minimal</string>
 
     <string name="edit_expense">Modif. dépense</string>
+    <string name="edit_expense_new_expense">Nouvelle dépense</string>
     <string name="edit_expense_name">Nom de la dépense</string>
     <string name="edit_expense_amount">Montant</string>
     <string name="edit_expense_euro">€</string>

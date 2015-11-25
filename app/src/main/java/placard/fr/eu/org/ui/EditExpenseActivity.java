@@ -77,7 +77,7 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
-        getSupportActionBar().setTitle(R.string.edit_expense);
+
 
         Bundle extras = getIntent().getExtras();
         mNewGroup = extras.getBoolean(NEW_EXPENSE_FIELD);
@@ -94,6 +94,12 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         mPartsLV = (ListView) findViewById(R.id.edit_expense_participations_lv);
 
         mPayer = (Spinner) findViewById(R.id.edit_expense_payer_spinner);
+
+        if (mNewGroup) {
+            getSupportActionBar().setTitle(R.string.edit_expense_new_expense);
+        } else {
+            getSupportActionBar().setTitle(R.string.edit_expense);
+        }
 
         if (!mNewGroup) {
             Backend.getInstance(getApplicationContext()).getExpenses(this, mGroup.getId());
@@ -148,7 +154,20 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     }
 
     private void createExpense() {
+        ArrayList<Participation> dest = new ArrayList<Participation>();
+        ArrayList<Participation> parts =((ParticipationAdapter) mPartsLV.getAdapter()).getParticipations();
+        for (Participation currPart : parts) {
+               if (currPart.getParts() > 0) {
+                   dest.add(currPart);
+               }
+        }
 
+        Expense e = new Expense(mExpenseNameTV.getText().toString(), Float.parseFloat(mExpenseAmountTV.getText().toString()),
+                ((Friend)mPayer.getSelectedItem()).getActorId(), dest );
+
+        Log.d(TAG, "Creating expense with count(participations):" + e.getParticipations().size());
+
+        Backend.getInstance(this).createExpense(this, mGroup.getId(), e);
 
     }
 

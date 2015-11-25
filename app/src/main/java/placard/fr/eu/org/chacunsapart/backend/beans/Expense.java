@@ -1,5 +1,7 @@
 package placard.fr.eu.org.chacunsapart.backend.beans;
 
+import android.provider.Telephony;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -28,6 +30,28 @@ public class Expense {
 
     @SerializedName("participations")
     private ArrayList<Participation> mParticipations = new ArrayList<Participation>();
+
+    public Expense() {
+
+    }
+
+    public Expense(String name, float amount, int payer_id, ArrayList<Participation> participations) {
+        mName = name;
+        mAmount = amount;
+        mPayerId = payer_id;
+        mParticipations = participations;
+    }
+
+    protected Expense(Expense e) {
+        mName = e.getName();
+        mAmount = e.getAmount();
+        mPayerId = e.getPayerId();
+        mParticipations = e.getParticipations();
+    }
+
+    protected void unsetParticipations() {
+        mParticipations.clear();
+    }
 
     @Override
     public String toString() {

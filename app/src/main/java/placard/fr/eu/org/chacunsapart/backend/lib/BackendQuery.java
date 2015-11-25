@@ -2,9 +2,16 @@ package placard.fr.eu.org.chacunsapart.backend.lib;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import placard.fr.eu.org.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.org.chacunsapart.backend.beans.ExpenseForBackend;
 import placard.fr.eu.org.chacunsapart.backend.beans.Group;
 import placard.fr.eu.org.chacunsapart.backend.beans.Participation;
 import placard.fr.eu.org.chacunsapart.backend.conf.BackendConf;
@@ -176,5 +183,14 @@ public class BackendQuery implements BackendConf {
             Log.e(TAG, e.getMessage());
         }
         return result;
+	}
+
+	public static String buildCreateExpenseParams(int group_id, Expense e) {
+		String result = null;
+		ExpenseForBackend efb = new ExpenseForBackend(e, group_id);
+		Gson gson = new Gson();
+		result = gson.toJson(efb);
+		Log.d(TAG, "expense to GSON string is:" + result);
+		return result;
 	}
 }
