@@ -64,6 +64,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
 
     private ListView mPartsLV;
 
+    private boolean mEnableButtonOk = true;
+
     private android.support.v7.widget.Toolbar mToolbar;
 
     private int mParticipationsToProcess;
@@ -128,6 +130,7 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_edit_expense, menu);
+        menu.findItem(R.id.action_ok).setEnabled(mEnableButtonOk);
         return true;
     }
 
@@ -144,6 +147,9 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         }
 
         if (id == R.id.action_ok) {
+            Log.d(TAG, "tick clicked !");
+            mEnableButtonOk = false;
+            invalidateOptionsMenu();
             if (checkInputs()) {
                 if (mNewGroup) {
                     createExpense();
