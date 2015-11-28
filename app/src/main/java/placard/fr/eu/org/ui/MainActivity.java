@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private static final String TAG = MainActivity.class.getSimpleName();
 
 	private Button mLoginBtn;
-	private Button mLogoutBtn;
-	private Button mNextBtn;
+
 	
 	private EditText mLoginEt;
 	private EditText mPasswordEt;
@@ -48,11 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 		mLoginBtn = (Button) findViewById(R.id.login);
 		mLoginBtn.setOnClickListener(this);
 		
-		mLogoutBtn = (Button) findViewById(R.id.logout);
-		mLogoutBtn.setOnClickListener(this);
-		
-		mNextBtn = (Button) findViewById(R.id.next);
-		mNextBtn.setOnClickListener(this);
+
 		
 		mLoginEt = (EditText) findViewById(R.id.login_et);
 		mPasswordEt = (EditText) findViewById(R.id.password_et);
@@ -77,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 		if (mBackend.getEmail() != null) {
 			mLoginEt.setText(mBackend.getEmail());
 		}
+
+		if (mBackend.isLoggedIn()) {
+			startActivity(MyGroupsActivity.getIntent(getApplicationContext()));
+			finish();
+		}
     }
 
 	@Override
@@ -86,13 +86,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 		case R.id.login:
 			mBackend.login(this, mLoginEt.getText().toString(), mPasswordEt.getText().toString());
 			break;
-		case R.id.logout:
-			mBackend.logout();
-			break;
-		case R.id.next:
-			Intent i = MyGroupsActivity.getIntent(getApplicationContext());
-			startActivity(i);
-			break;
 		}	
 	}
 	
@@ -100,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	public void onBackendResponse(BackendObject bo) {
 		Log.d("Main", "BackendResponse said ok");
 		Log.d("Main", "Email is: " + mBackend.getEmail() + " Nick is: " + mBackend.getNick());
+		startActivity(MyGroupsActivity.getIntent(getApplicationContext()));
+		finish();
 	}
 
 	@Override
