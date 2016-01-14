@@ -2,11 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context=".MyGroups" >
+    tools:context=".MyGroups">
 
     <ListView 
         android:id="@+id/my_groups_lv"
@@ -24,6 +25,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        app:backgroundTint="@color/csp_blue"
         android:src="@drawable/icplus"
         />
 </RelativeLayout>

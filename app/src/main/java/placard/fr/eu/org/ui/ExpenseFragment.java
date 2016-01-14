@@ -76,7 +76,7 @@ public class ExpenseFragment extends Fragment implements BackendListener, View.O
         View v = inflater.inflate(R.layout.fragment_expense_list, container, false);
 
         mFab = (FloatingActionButton) v.findViewById(R.id.expense_fab);
-        mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_orange)));
+        //mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_orange)));
         mFab.setOnClickListener(this);
         mExpensesLV = (ListView) v.findViewById(R.id.expense_lv);
 
