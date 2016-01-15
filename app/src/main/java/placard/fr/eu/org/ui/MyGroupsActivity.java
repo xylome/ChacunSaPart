@@ -51,7 +51,8 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
         mFab = (FloatingActionButton) findViewById(R.id.my_groups_fab);
 
         mFab.setOnClickListener(this);
-        mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_blue)));
+        //mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_blue)));
+
 		getSupportActionBar().setTitle(R.string.title_activity_my_groups);
 	}
 
