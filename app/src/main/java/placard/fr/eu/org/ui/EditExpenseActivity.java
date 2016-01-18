@@ -2,6 +2,7 @@ package placard.fr.eu.org.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -71,6 +72,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     private int mParticipationsToProcess;
     private int mParticipationsProcessed;
 
+    private FloatingActionButton mFab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +83,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
-
+        mFab = (FloatingActionButton) findViewById(R.id.edit_expense_fab);
+        mFab.setOnClickListener(this);
 
         Bundle extras = getIntent().getExtras();
         mNewGroup = extras.getBoolean(NEW_EXPENSE_FIELD);
@@ -264,5 +268,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     public void onClick(View view) {
         Log.d(TAG, "Clicked view: " + view);
 
+        if (view.getId() == R.id.edit_expense_fab) {
+            startActivity(AddFriendActivity.getIntent(this));
+        }
     }
 }

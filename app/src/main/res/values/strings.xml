@@ -16,7 +16,6 @@
     <string name="balances">soldes</string>
     <string name="transfers">virements</string>
 
-
     <string name="create_group">Créer un groupe</string>
 
     <string name="edit_group_name">Nom du groupe</string>
@@ -32,6 +31,9 @@
     <string name="edit_expense_create_expense_ok">Dépense créée</string>
     <string name="edit_expense_incorrect_amount">Montant incorrect</string>
     <string name="edit_expense_name_too_short">Nom trop court</string>
+
+    <string name="add_friend_title">Ajouter un ami</string>
+    <string name="add_friend_autocomplete_hint">nom</string>
 
     <string name="button_plus">+</string>
     <string name="button_minus">-</string>
