@@ -246,9 +246,11 @@ public class Backend implements BackendConf {
 		mData.writeAccountId(null);
 		mData.writeNick(null);
 		mData.writeActorId(0);
-		// keeping email in sharedPrefs.
-		//mData.writeEmail(null); 
-		mData.writeCookie(null);
+		/*
+		keeping email in sharedPrefs.
+		mData.writeEmail(null);
+		*/
+        mData.writeCookie(null);
 	}
 	
 	private void saveInfo(LoginResponse lr) {

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
+import placard.fr.eu.org.adapters.AutoCompleteAdapter;
 import placard.fr.eu.org.chacunsaparttesteur.R;
 
 public class AddFriendActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class AddFriendActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         mAutoComplete = (AppCompatAutoCompleteTextView) findViewById(R.id.add_friend_autocomplete);
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,languages);
+        AutoCompleteAdapter autoCompleteAdapter = new AutoCompleteAdapter(this, );
         mAutoComplete.setAdapter(adapter);
 
         getSupportActionBar().setTitle(R.string.add_friend_title);
