@@ -2,6 +2,7 @@ package placard.fr.eu.org.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -18,12 +19,15 @@ import placard.fr.eu.org.chacunsaparttesteur.R;
 public class AddFriendActivity extends AppCompatActivity {
 
     private static final String TAG = AddFriendActivity.class.getSimpleName();
+    private static final String FRIENDS = "extra_friends";
+
     private Toolbar mToolbar;
     private AppCompatAutoCompleteTextView mAutoComplete;
     private AppCompatAutoCompleteTextView mNickName;
 
     private boolean mEnableButton = true;
 
+    private ArrayList<Friend> mFriends = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +39,13 @@ public class AddFriendActivity extends AppCompatActivity {
 
         mNickName = (AppCompatAutoCompleteTextView) findViewById(R.id.add_friend_autocomplete);
 
-        ArrayList<Friend> friends = new ArrayList<>();
-        friends.add(new Friend("Toto"));
-        friends.add(new Friend("Tata"));
-        friends.add(new Friend("Totora"));
-        friends.add(new Friend("Totori"));
+        Intent received = getIntent();
+        Bundle extras = received.getExtras();
+
+        mFriends =  extras.getParcelableArrayList(FRIENDS);
 
         mAutoComplete = (AppCompatAutoCompleteTextView) findViewById(R.id.add_friend_autocomplete);
-        AutoCompleteAdapter autoCompleteAdapter = new AutoCompleteAdapter(this, R.layout.auto_complete, friends);
+        AutoCompleteAdapter autoCompleteAdapter = new AutoCompleteAdapter(this, R.layout.auto_complete, mFriends);
         mAutoComplete.setAdapter(autoCompleteAdapter);
 
 
@@ -50,8 +53,9 @@ public class AddFriendActivity extends AppCompatActivity {
 
     }
 
-    public static Intent getIntent(Context c) {
+    public static Intent getIntent(Context c, ArrayList<Friend> friends) {
         Intent i = new Intent(c, AddFriendActivity.class);
+        i.putExtra(FRIENDS, friends);
         return i;
     }
 

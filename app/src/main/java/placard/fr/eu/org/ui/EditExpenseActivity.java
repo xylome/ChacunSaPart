@@ -269,7 +269,7 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         Log.d(TAG, "Clicked view: " + view);
 
         if (view.getId() == R.id.edit_expense_fab) {
-            startActivity(AddFriendActivity.getIntent(this));
+            startActivity(AddFriendActivity.getIntent(this, mFriends.getFriends()));
         }
     }
 }
