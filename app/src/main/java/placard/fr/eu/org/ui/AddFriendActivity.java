@@ -5,35 +5,49 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-
+import android.view.inputmethod.InputMethodManager;
+import java.util.ArrayList;
 import placard.fr.eu.org.adapters.AutoCompleteAdapter;
+import placard.fr.eu.org.chacunsapart.backend.beans.Friend;
 import placard.fr.eu.org.chacunsaparttesteur.R;
 
 public class AddFriendActivity extends AppCompatActivity {
 
-    private static final String TAG = AddFriendActivity.class.getSimpleName() ;
-    private android.support.v7.widget.Toolbar mToolbar;
+    private static final String TAG = AddFriendActivity.class.getSimpleName();
+    private Toolbar mToolbar;
     private AppCompatAutoCompleteTextView mAutoComplete;
-    String[] languages={"Andor", "Andromede", "Android ","java","IOS","SQL","JDBC","Web services"};
+    private AppCompatAutoCompleteTextView mNickName;
+
     private boolean mEnableButton = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
 
-        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.add_friend_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.add_friend_toolbar);
         setSupportActionBar(mToolbar);
 
+        mNickName = (AppCompatAutoCompleteTextView) findViewById(R.id.add_friend_autocomplete);
+
+        ArrayList<Friend> friends = new ArrayList<>();
+        friends.add(new Friend("Toto"));
+        friends.add(new Friend("Tata"));
+        friends.add(new Friend("Totora"));
+        friends.add(new Friend("Totori"));
+
         mAutoComplete = (AppCompatAutoCompleteTextView) findViewById(R.id.add_friend_autocomplete);
-        AutoCompleteAdapter autoCompleteAdapter = new AutoCompleteAdapter(this, );
-        mAutoComplete.setAdapter(adapter);
+        AutoCompleteAdapter autoCompleteAdapter = new AutoCompleteAdapter(this, R.layout.auto_complete, friends);
+        mAutoComplete.setAdapter(autoCompleteAdapter);
+
 
         getSupportActionBar().setTitle(R.string.add_friend_title);
+
     }
 
     public static Intent getIntent(Context c) {
@@ -47,6 +61,13 @@ public class AddFriendActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_edit_expense, menu);
         menu.findItem(R.id.action_ok).setEnabled(mEnableButton);
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mNickName.getWindowToken(), 0);
+        super.onPause();
     }
 
     @Override

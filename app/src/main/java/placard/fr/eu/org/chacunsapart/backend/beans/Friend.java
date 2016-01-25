@@ -15,6 +15,9 @@ public class Friend {
     @SerializedName("acct_id")
     private int mAccountId;
 
+    public Friend(String nick) {
+        mActorNick = nick;
+    }
 
     public int getActorId() {
         return mActorId;

@@ -20,7 +20,9 @@ import placard.fr.eu.org.chacunsaparttesteur.R;
  */
 public class AutoCompleteAdapter extends ArrayAdapter<Friend> {
     private LayoutInflater layoutInflater;
-    List<Friend> mCustomers;
+    List<Friend> mFriends;
+    private int mViewResourceId;
+
 
     private Filter mFilter = new Filter() {
         @Override
@@ -34,10 +36,10 @@ public class AutoCompleteAdapter extends ArrayAdapter<Friend> {
 
             if (constraint != null) {
                 ArrayList<Friend> suggestions = new ArrayList<Friend>();
-                for (Friend customer : mCustomers) {
+                for (Friend friend : mFriends) {
                     // Note: change the "contains" to "startsWith" if you only want starting matches
-                    if (customer.getActorNick().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        suggestions.add(customer);
+                    if (friend.getActorNick().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        suggestions.add(friend);
                     }
                 }
 
@@ -56,17 +58,18 @@ public class AutoCompleteAdapter extends ArrayAdapter<Friend> {
                 addAll((ArrayList<Friend>) results.values);
             } else {
                 // no filter, add entire original list back in
-                addAll(mCustomers);
+                addAll(mFriends);
             }
             notifyDataSetChanged();
         }
     };
 
-    public AutoCompleteAdapter(Context context, int textViewResourceId, List<Friend> customers) {
-        super(context, textViewResourceId, customers);
-        // copy all the customers into a master list
-        mCustomers = new ArrayList<Friend>(customers.size());
-        mCustomers.addAll(customers);
+    public AutoCompleteAdapter(Context context, int textViewResourceId, List<Friend> friends) {
+        super(context, textViewResourceId, friends);
+        // copy all the friends into a master list
+        mFriends = new ArrayList<>(friends.size());
+        mFriends.addAll(friends);
+        mViewResourceId = textViewResourceId;
         layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -75,13 +78,13 @@ public class AutoCompleteAdapter extends ArrayAdapter<Friend> {
         View view = convertView;
 
         if (view == null) {
-            view = layoutInflater.inflate(R.layout.auto_complete, null);
+            view = layoutInflater.inflate(mViewResourceId, null);
         }
 
-        Friend customer = getItem(position);
+        Friend friend = getItem(position);
 
         TextView name = (TextView) view.findViewById(R.id.auto_complete_nick);
-        name.setText(customer.getActorNick());
+        name.setText(friend.getActorNick());
 
         return view;
     }

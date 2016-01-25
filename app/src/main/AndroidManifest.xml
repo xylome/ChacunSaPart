@@ -37,7 +37,7 @@
         <activity
             android:name="placard.fr.eu.org.ui.AddFriendActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustNothing"
+            android:windowSoftInputMode="stateVisible|adjustNothing"
             >
         </activity>
     </application>
