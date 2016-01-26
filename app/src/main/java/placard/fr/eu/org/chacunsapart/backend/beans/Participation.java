@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by xylome on 22/09/15.
  */
@@ -62,11 +64,6 @@ public class Participation extends BackendObject {
     public int getGuestId() {
         return mGuestId;
     }
-
-    public String getNick() {
-        return mGuestNick;
-    }
-
     public String getGuestNick() {
         return mGuestNick;
     }
@@ -152,5 +149,6 @@ public class Participation extends BackendObject {
             mParts--;
         }
     }
+
 }
 

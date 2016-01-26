@@ -22,6 +22,11 @@ public class Friend implements Parcelable {
         mActorNick = nick;
     }
 
+    public Friend(String nick, int actorId) {
+        mActorId = actorId;
+        mActorNick = nick;
+    }
+
     public int getActorId() {
         return mActorId;
     }
@@ -35,7 +40,7 @@ public class Friend implements Parcelable {
     }
 
     public String toString() {
-        return getActorNick();
+        return getActorId() + ':' +getActorNick();
     }
 
     public Friend(Parcel in) {

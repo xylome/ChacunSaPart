@@ -21,6 +21,7 @@ import android.widget.Toolbar;
 
 import java.util.ArrayList;
 
+import placard.fr.eu.org.Utils.Utils;
 import placard.fr.eu.org.adapters.FriendAdapter;
 import placard.fr.eu.org.adapters.ParticipationAdapter;
 import placard.fr.eu.org.chacunsapart.backend.beans.BackendObject;
@@ -46,6 +47,7 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     private static final String NEW_EXPENSE_FIELD = "new_expense_field";
 
     private static final String TAG = EditExpenseActivity.class.getSimpleName();
+    private static final int ADD_A_FRIEND = 0x001 ;
 
     private int mExpenseId;
 
@@ -68,6 +70,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
     private boolean mEnableButtonOk = true;
 
     private android.support.v7.widget.Toolbar mToolbar;
+
+    private ParticipationAdapter mParticipationAdapter;
 
     private int mParticipationsToProcess;
     private int mParticipationsProcessed;
@@ -220,7 +224,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
             mExpense = mGroup.getExpense(mExpenseId);
             mExpenseNameTV.setText(mExpense.getName());
             mExpenseAmountTV.setText(mExpense.getAmount() + "");
-            mPartsLV.setAdapter(new ParticipationAdapter(getApplicationContext(), mGroup, mExpense.getParticipations()));
+            mParticipationAdapter = new ParticipationAdapter(getApplicationContext(), mGroup, mExpense.getParticipations());
+            mPartsLV.setAdapter(mParticipationAdapter);
             Backend.getInstance(getApplicationContext()).getFriends(this);
         }
 
@@ -236,7 +241,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
                     for (Friend currFriend : mFriends.getFriends()) {
                         suggestedFriends.add(new Participation(currFriend.getActorId(), 0, currFriend.getActorNick()));
                     }
-                    mPartsLV.setAdapter(new ParticipationAdapter(getApplicationContext(), mGroup, suggestedFriends));
+                    mParticipationAdapter = new ParticipationAdapter(getApplicationContext(), mGroup, suggestedFriends);
+                    mPartsLV.setAdapter(mParticipationAdapter);
             }
         }
 
@@ -269,7 +275,20 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
         Log.d(TAG, "Clicked view: " + view);
 
         if (view.getId() == R.id.edit_expense_fab) {
-            startActivity(AddFriendActivity.getIntent(this, mFriends.getFriends()));
+            ArrayList<Participation> participations = mParticipationAdapter.getParticipations();
+            ArrayList<Friend> participatingFriends = Utils.extractFriendsFromParticipation(participations);
+
+            startActivityForResult(AddFriendActivity.getIntent(this, mFriends.getFriends(), participatingFriends), ADD_A_FRIEND);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_A_FRIEND) {
+            if (resultCode == RESULT_OK) {
+                Friend f = data.getParcelableExtra(AddFriendActivity.getNewFriendExtraKey());
+                Log.d(TAG, "Received this friend to add to participation: " + f);
+            }
         }
     }
 }

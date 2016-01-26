@@ -64,7 +64,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<Friend> {
         }
     };
 
-    public AutoCompleteAdapter(Context context, int textViewResourceId, List<Friend> friends) {
+    public AutoCompleteAdapter(Context context, int textViewResourceId, List<Friend> friends, List<Friend> participating) {
         super(context, textViewResourceId, friends);
         // copy all the friends into a master list
         mFriends = new ArrayList<>(friends.size());

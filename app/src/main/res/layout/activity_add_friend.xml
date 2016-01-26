@@ -29,4 +29,13 @@
         >
     </android.support.v7.widget.AppCompatAutoCompleteTextView>
 
+
+    <TextView
+        android:id="@+id/auto_complete_friend_status"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/csp_green"
+        android:layout_below="@id/add_friend_autocomplete"
+        android:layout_marginTop="20dp"
+        />
 </RelativeLayout>
