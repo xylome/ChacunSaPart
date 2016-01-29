@@ -115,7 +115,7 @@ public class Backend implements BackendConf {
 
 
 	public void updateParticipation(BackendListener caller, int expense_id, Participation participation) {
-        String params = BackendQuery.buildUpdateParticipationParamas(expense_id, participation);
+        String params = BackendQuery.buildUpdateParticipationParams(expense_id, participation);
 
         BackendObject bo = new Participation();
         myBackendGeneric(caller, bo, ACTION_UPDATE_PARTICIPATION, params, -1, true);

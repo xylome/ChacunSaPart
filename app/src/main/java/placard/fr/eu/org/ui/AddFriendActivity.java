@@ -176,11 +176,12 @@ public class AddFriendActivity extends AppCompatActivity {
             Log.d(TAG, "tick clicked !");
             mEnableButton = false;
             invalidateOptionsMenu();
-            Intent i = getIntent();
+            Intent i = new Intent();
             Friend f = Utils.resolveFriend(mAutoComplete.getText().toString(), mAllFriends);
 
-            i.putExtra(NEW_FRIEND, new Friend("toto"));
-            setResult(RESULT_OK);
+            i.putExtra(NEW_FRIEND, f);
+            setResult(RESULT_OK, i);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

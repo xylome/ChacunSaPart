@@ -153,13 +153,16 @@ public class BackendQuery implements BackendConf {
 		return result;
 	}
 
-	public static String buildUpdateParticipationParamas(int expense_id, Participation particpation) {
+	public static String buildUpdateParticipationParams(int expense_id, Participation particpation) {
         String result = null;
 
         JSONObject obj = new JSONObject();
         try {
             obj.put(FIELD_EXPENSE_ID, expense_id);
             obj.put(FIELD_GUEST_ACTOR_ID, particpation.getGuestId());
+			if (particpation.getGuestId() == 0) {
+              obj.put(FIELD_NEW_GUEST_NICK, particpation.getGuestNick());
+            }
             obj.put(FIELD_PARTS, particpation.getParts());
             obj.put(QUERY_ABSOLUTE_PARTS, 1);
             result = obj.toString();

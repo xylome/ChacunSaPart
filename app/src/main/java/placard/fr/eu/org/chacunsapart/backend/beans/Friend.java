@@ -39,8 +39,13 @@ public class Friend implements Parcelable {
         return mAccountId;
     }
 
+    /**
+     * This is used by dropdown in edit expense : so don't touch !
+     * @return the actor nick
+     */
+    @Override
     public String toString() {
-        return getActorId() + ':' +getActorNick();
+        return  getActorNick();
     }
 
     public Friend(Parcel in) {

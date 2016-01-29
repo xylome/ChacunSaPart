@@ -288,6 +288,8 @@ public class EditExpenseActivity extends AppCompatActivity implements BackendLis
             if (resultCode == RESULT_OK) {
                 Friend f = data.getParcelableExtra(AddFriendActivity.getNewFriendExtraKey());
                 Log.d(TAG, "Received this friend to add to participation: " + f);
+                mParticipationAdapter.getParticipations().add(new Participation(f.getActorId(),0, f.getActorNick()));
+                mParticipationAdapter.notifyDataSetChanged();
             }
         }
     }
