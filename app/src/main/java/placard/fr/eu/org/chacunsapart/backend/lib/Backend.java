@@ -198,6 +198,10 @@ public class Backend implements BackendConf {
                     bc.writeToCache(result, cache_id);
                 }
 
+                if (verb.equals(ACTION_UPDATE_PARTICIPATION)) {
+                    bc.invalidate(ACTION_GET_MY_FRIENDS, -1);
+                }
+
                 try {
                     if (verb.equals(ACTION_GET_BALANCES)) {
                         result = extractDataFromResponse(result);
