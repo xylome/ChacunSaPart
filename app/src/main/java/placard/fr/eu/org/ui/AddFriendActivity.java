@@ -150,6 +150,11 @@ public class AddFriendActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_edit_expense, menu);
         menu.findItem(R.id.action_ok).setEnabled(mEnableButton);
+        if (!mEnableButton) {
+            menu.findItem(R.id.action_ok).getIcon().setAlpha(60);
+        } else {
+            menu.findItem(R.id.action_ok).getIcon().setAlpha(255);
+        }
         return true;
     }
 
