@@ -67,7 +67,6 @@ public class AddFriendActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.add_friend_title);
 
-
         mCheckStatus = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -78,18 +77,18 @@ public class AddFriendActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(charSequence.length() > 2) {
                    if (alreadyParticipating(charSequence.toString())) {
-                        mStatus.setText("Ce pote participe déjà…");
+                        mStatus.setText(R.string.add_friend_already_participates);
                         deactivateOk();
                    } else if (alreadyFriend(charSequence.toString())) {
-                        mStatus.setText("Ok, il existe déjà et sera ajouté aux participants");
+                        mStatus.setText(R.string.add_friend_adding_to_participation);
                         activateOk();
                    }
                     else {
-                       mStatus.setText("On devrait pouvoir l'ajouter");
+                       mStatus.setText(R.string.add_friend_creating_and_adding_friend);
                        activateOk();
                    }
                 } else {
-                    mStatus.setText("nom du pote incorrect : pas assez de caractères.");
+                    mStatus.setText(R.string.add_friend_bad_nickname_not_enough_chars);
                     deactivateOk();
                 }
             }

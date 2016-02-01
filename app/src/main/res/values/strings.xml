@@ -34,6 +34,10 @@
 
     <string name="add_friend_title">Ajouter un ami</string>
     <string name="add_friend_autocomplete_hint">nom</string>
+    <string name="add_friend_already_participates">Cet ami participe déjà…</string>
+    <string name="add_friend_adding_to_participation">Ok, il existe déjà et sera ajouté aux participants.</string>
+    <string name="add_friend_creating_and_adding_friend">Cet ami sera créé et ajouté à la dépense.</string>
+    <string name="add_friend_bad_nickname_not_enough_chars">Le nom de votre ami est incorrect : il ne contient pas assez de caractères.</string>
 
     <string name="button_plus">+</string>
     <string name="button_minus">-</string>
