@@ -112,18 +112,6 @@ public class ExpenseFragment extends Fragment implements BackendListener, View.O
         mListener = null;
     }
 
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//
-//        if (null != mListener) {
-//            // Notify the active callbacks interface (the activity, if the
-//            // fragment is attached to one) that an item has been selected.
-//            mListener.onExpenseFragmentInterraction("bar bar");
-//        }
-//    }
-
-
     public void onBackendResponse(BackendObject bo) {
         GroupExpenses ge = (GroupExpenses) bo;
         Log.d(TAG, "Group Expenses received: " + ge);
