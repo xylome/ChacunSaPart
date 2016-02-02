@@ -1,0 +1,2 @@
+./gradlew assembleBeta crashlyticsUploadDistributionBeta
+

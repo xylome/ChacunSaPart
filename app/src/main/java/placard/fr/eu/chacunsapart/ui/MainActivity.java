@@ -35,12 +35,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Fabric.with(this, new Crashlytics());
+		initFabric();
 		setContentView(R.layout.activity_main);
 		mBackend = Backend.getInstance(getApplicationContext());
 		setUpViews();
 		setUpActionBar();
-		startFabric();
+		enrichFabric();
 	}
 
 	private void setUpViews() {
@@ -57,10 +57,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 		}
 	}
 
-	private void startFabric() {
+	private void enrichFabric() {
 		Crashlytics.setUserIdentifier(mBackend.getActorId() + "");
 		Crashlytics.setUserEmail(mBackend.getEmail());
 		Crashlytics.setUserName(mBackend.getNick());
+	}
+
+	private void initFabric() {
+		final Fabric fabric = new Fabric.Builder(this)
+        .kits(new Crashlytics())
+        .debuggable(true)
+        .build();
+		Fabric.with(fabric);
 	}
 
 	@Override
