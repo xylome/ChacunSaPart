@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
 	private void setUpActionBar() {
 		mAction = getSupportActionBar();
-		mAction.setTitle(R.string.title_login);
+		if (mAction != null) {
+			mAction.setTitle(R.string.title_login);
+		}
 	}
 
 	private void startFabric() {
@@ -71,12 +73,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume() --------");
-
 		if (mBackend.getEmail() != null) {
 			mLoginEt.setText(mBackend.getEmail());
 		}
-
 		if (mBackend.isLoggedIn()) {
 			startActivity(MyGroupsActivity.getIntent(getApplicationContext()));
 			finish();
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
 	@Override
 	public void onClick(View v) {
-        System.out.println(" !!!!!!!!!!! onClick: clicked !");
 		switch(v.getId()) {
 		case R.id.login:
 			mBackend.login(this, mLoginEt.getText().toString(), mPasswordEt.getText().toString());
