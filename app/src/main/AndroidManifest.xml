@@ -40,6 +40,9 @@
             android:windowSoftInputMode="stateVisible|adjustNothing"
             >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="488563cbe3445880608477096c50d58ecd57acce" />
     </application>
 
 </manifest>

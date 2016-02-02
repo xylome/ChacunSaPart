@@ -78,7 +78,8 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d(TAG, "Long clicked group is: " + adapterView.getItemAtPosition(i).toString());
                 Toast.makeText(getApplicationContext(), "Server does not support group update.", Toast.LENGTH_LONG).show();
-                return true;
+                throw(new RuntimeException("Exception for crashlytics"));
+                //return true;
             }
         });
 

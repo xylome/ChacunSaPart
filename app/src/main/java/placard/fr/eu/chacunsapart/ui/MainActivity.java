@@ -1,5 +1,7 @@
 package placard.fr.eu.chacunsapart.ui;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import placard.fr.eu.chacunsapart.backend.exceptions.BackendException;
 import placard.fr.eu.chacunsapart.backend.exceptions.BadCredentialsException;
 import placard.fr.eu.chacunsapart.backend.exceptions.HttpConnectionException;
@@ -24,36 +26,39 @@ import placard.fr.eu.org.chacunsapart.R;
 public class MainActivity extends AppCompatActivity implements OnClickListener, BackendListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
 	private Button mLoginBtn;
-
-	
 	private EditText mLoginEt;
 	private EditText mPasswordEt;
-
 	private ActionBar mAction;
-
-	/* The backend */
 	private Backend mBackend;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Fabric.with(this, new Crashlytics());
 		setContentView(R.layout.activity_main);
-		
 		mBackend = Backend.getInstance(getApplicationContext());
-		
+		setUpViews();
+		setUpActionBar();
+		startFabric();
+	}
+
+	private void setUpViews() {
 		mLoginBtn = (Button) findViewById(R.id.login);
 		mLoginBtn.setOnClickListener(this);
-		
-
-		
 		mLoginEt = (EditText) findViewById(R.id.login_et);
 		mPasswordEt = (EditText) findViewById(R.id.password_et);
+	}
 
+	private void setUpActionBar() {
 		mAction = getSupportActionBar();
-
 		mAction.setTitle(R.string.title_login);
+	}
+
+	private void startFabric() {
+		Crashlytics.setUserIdentifier(mBackend.getActorId() + "");
+		Crashlytics.setUserEmail(mBackend.getEmail());
+		Crashlytics.setUserName(mBackend.getNick());
 	}
 
 	@Override
