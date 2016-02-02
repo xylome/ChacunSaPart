@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Group;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Participation;
-import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.chacunsapart.backend.beans.Group;
+import placard.fr.eu.chacunsapart.backend.beans.Participation;
+import placard.fr.eu.org.chacunsapart.R;
 
 /**
  * Created by xylome on 24/10/2015.

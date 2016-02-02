@@ -11,9 +11,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Friend;
+import placard.fr.eu.chacunsapart.backend.beans.Friend;
 
-import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.org.chacunsapart.R;
 /**
  * Created by xylome on 18/01/16.
  * http://stackoverflow.com/questions/8784249/android-autocompletetextview-with-custom-adapter-filtering-not-working

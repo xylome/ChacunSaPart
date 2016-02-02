@@ -16,14 +16,14 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.chacunsapart.backend.exceptions.BackendException;
 import placard.fr.eu.chacunsapart.adapters.PartAdapter;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.BackendObject;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Dividor;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Group;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.lib.Backend;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.listeners.BackendListener;
-import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.chacunsapart.backend.beans.Dividor;
+import placard.fr.eu.chacunsapart.backend.beans.Group;
+import placard.fr.eu.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.chacunsapart.backend.listeners.BackendListener;
+import placard.fr.eu.org.chacunsapart.R;
 
 public class EditGroupActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, BackendListener{
 

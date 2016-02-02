@@ -1,11 +1,11 @@
 package placard.fr.eu.chacunsapart.ui;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.BackendObject;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Group;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Groups;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.exceptions.BackendException;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.lib.Backend;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.listeners.BackendListener;
+import placard.fr.eu.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.chacunsapart.backend.beans.Group;
+import placard.fr.eu.chacunsapart.backend.beans.Groups;
+import placard.fr.eu.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.chacunsapart.backend.listeners.BackendListener;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.org.chacunsapart.R;
 
 public class MyGroupsActivity extends AppCompatActivity implements BackendListener,
         View.OnClickListener {

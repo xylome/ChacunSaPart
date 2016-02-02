@@ -12,12 +12,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Group;
-import placard.fr.eu.chacunsapart.ui.listener.ExpenseFragmentListener;
-import placard.fr.eu.chacunsapart.ui.listener.PaybackFragmentListener;
+import placard.fr.eu.chacunsapart.backend.beans.Group;
+import placard.fr.eu.chacunsapart.listener.ExpenseFragmentListener;
+import placard.fr.eu.chacunsapart.listener.PaybackFragmentListener;
 
-import placard.fr.eu.org.chacunsaparttesteur.R;
-import placard.fr.eu.chacunsapart.ui.listener.BalanceFragmentListener;
+import placard.fr.eu.org.chacunsapart.R;
+import placard.fr.eu.chacunsapart.listener.BalanceFragmentListener;
 
 public class GroupActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener, ExpenseFragmentListener, PaybackFragmentListener, BalanceFragmentListener {
 

@@ -14,12 +14,14 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import placard.fr.eu.chacunsapart.backend.beans.Friend;
+
 import java.util.ArrayList;
 
 import placard.fr.eu.chacunsapart.utils.Utils;
 import placard.fr.eu.chacunsapart.adapters.AutoCompleteAdapter;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Friend;
-import placard.fr.eu.org.chacunsaparttesteur.R;
+
+import placard.fr.eu.org.chacunsapart.R;
 
 public class AddFriendActivity extends AppCompatActivity {
 

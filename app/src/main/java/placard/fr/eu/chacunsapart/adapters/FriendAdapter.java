@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Friends;
-import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.chacunsapart.backend.beans.Friends;
+import placard.fr.eu.org.chacunsapart.R;
 
 /**
  * Created by xylome on 21/10/2015.

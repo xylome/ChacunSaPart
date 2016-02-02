@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.BackendObject;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Expense;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Group;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.exceptions.BackendException;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.lib.Backend;
-import placard.fr.eu.chacunsapart.ui.listener.PaybackFragmentListener;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.GroupExpenses;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.listeners.BackendListener;
+import placard.fr.eu.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.chacunsapart.backend.beans.Group;
+import placard.fr.eu.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.chacunsapart.listener.PaybackFragmentListener;
+import placard.fr.eu.chacunsapart.backend.beans.GroupExpenses;
+import placard.fr.eu.chacunsapart.backend.listeners.BackendListener;
 
 /**
  *

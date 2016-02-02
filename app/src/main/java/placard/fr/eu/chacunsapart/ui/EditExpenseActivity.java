@@ -19,19 +19,19 @@ import java.util.ArrayList;
 
 import placard.fr.eu.chacunsapart.adapters.FriendAdapter;
 import placard.fr.eu.chacunsapart.adapters.ParticipationAdapter;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.BackendObject;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Expense;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Friend;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Friends;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Group;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.GroupExpenses;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Participation;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.exceptions.BackendException;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.lib.Backend;
+import placard.fr.eu.chacunsapart.backend.beans.BackendObject;
+import placard.fr.eu.chacunsapart.backend.beans.Expense;
+import placard.fr.eu.chacunsapart.backend.beans.Friend;
+import placard.fr.eu.chacunsapart.backend.beans.Friends;
+import placard.fr.eu.chacunsapart.backend.beans.Group;
+import placard.fr.eu.chacunsapart.backend.beans.GroupExpenses;
+import placard.fr.eu.chacunsapart.backend.beans.Participation;
+import placard.fr.eu.chacunsapart.backend.exceptions.BackendException;
+import placard.fr.eu.chacunsapart.backend.lib.Backend;
 import placard.fr.eu.chacunsapart.utils.Utils;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.ExpenseResponse;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.listeners.BackendListener;
-import placard.fr.eu.org.chacunsaparttesteur.R;
+import placard.fr.eu.chacunsapart.backend.beans.ExpenseResponse;
+import placard.fr.eu.chacunsapart.backend.listeners.BackendListener;
+import placard.fr.eu.org.chacunsapart.R;
 
 public class EditExpenseActivity extends AppCompatActivity implements BackendListener, View.OnClickListener {
 

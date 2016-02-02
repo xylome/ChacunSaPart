@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Friend;
-import placard.fr.eu.chacunsapart.chacunsapart.backend.beans.Participation;
+import placard.fr.eu.chacunsapart.backend.beans.Friend;
+import placard.fr.eu.chacunsapart.backend.beans.Participation;
 
 /**
  * Created by xylome on 25/01/16.
