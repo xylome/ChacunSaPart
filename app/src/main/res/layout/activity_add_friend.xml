@@ -8,7 +8,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="placard.fr.eu.org.ui.AddFriendActivity">
+    tools:context="placard.fr.eu.chacunsapart.ui.AddFriendActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/add_friend_toolbar"
         android:layout_width="match_parent"

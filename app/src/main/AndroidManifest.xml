@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="placard.fr.eu.org.ui.MainActivity"
+            android:name="placard.fr.eu.chacunsapart.ui.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,21 +21,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="placard.fr.eu.org.ui.MyGroupsActivity"
+            android:name="placard.fr.eu.chacunsapart.ui.MyGroupsActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name="placard.fr.eu.org.ui.GroupActivity"
+            android:name="placard.fr.eu.chacunsapart.ui.GroupActivity"
             android:label="@string/title_activity_group"></activity>
         <activity
-            android:name="placard.fr.eu.org.ui.EditGroupActivity"
+            android:name="placard.fr.eu.chacunsapart.ui.EditGroupActivity"
             android:label="@string/create_group"></activity>
         <activity
-            android:name="placard.fr.eu.org.ui.EditExpenseActivity"
+            android:name="placard.fr.eu.chacunsapart.ui.EditExpenseActivity"
             android:label="@string/title_activity_edit_expense"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustNothing"></activity>
         <activity
-            android:name="placard.fr.eu.org.ui.AddFriendActivity"
+            android:name="placard.fr.eu.chacunsapart.ui.AddFriendActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustNothing"
             >

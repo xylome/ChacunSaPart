@@ -1,1 +1,0 @@
-package placard.fr.eu.org.chacunsapart.backend.lib;

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="placard.fr.eu.org.ui.EditExpenseActivity">
+    tools:context="placard.fr.eu.chacunsapart.ui.EditExpenseActivity">
 
     <item
         android:id="@+id/action_ok"
