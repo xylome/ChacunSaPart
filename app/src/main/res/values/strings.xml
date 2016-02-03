@@ -12,6 +12,7 @@
     <string name="title_login">Identification</string>
     <string name="title_activity_my_groups">Mes groupes</string>
     <string name="title_activity_group">GroupActivity</string>
+    <string name="ready">Prêt…</string>
     <string name="expenses">dépenses</string>
     <string name="balances">soldes</string>
     <string name="transfers">virements</string>
