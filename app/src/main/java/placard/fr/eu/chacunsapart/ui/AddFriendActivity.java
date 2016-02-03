@@ -8,7 +8,7 @@ import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -24,21 +24,15 @@ import placard.fr.eu.chacunsapart.adapters.AutoCompleteAdapter;
 import placard.fr.eu.org.chacunsapart.R;
 
 public class AddFriendActivity extends AppCompatActivity {
-
-    private static final String TAG = AddFriendActivity.class.getSimpleName();
     private static final String ALL_FRIENDS = "extra_all_friends";
     private static final String PARTICIPATING_FRIENDS = "extra_participating_friends";
     private static final String NEW_FRIEND = "extra_new_friend";
 
-    private Toolbar mToolbar;
     private AppCompatAutoCompleteTextView mAutoComplete;
-    private AppCompatAutoCompleteTextView mNickName;
     private TextView mStatus;
-
-    private TextWatcher mCheckStatus;
-
     private boolean mEnableButton = false;
 
+    private TextWatcher mCheckStatus = null;
     private ArrayList<Friend> mAllFriends = null;
     private ArrayList<Friend> mParticipatingFriends = null;
 
@@ -47,58 +41,66 @@ public class AddFriendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
 
-        mToolbar = (Toolbar) findViewById(R.id.add_friend_toolbar);
-        setSupportActionBar(mToolbar);
+        Bundle extras = getIntent().getExtras();
+        setUpMembers(extras);
+        setUpViews();
+        setUpActionBar();
+    }
 
-        mNickName = (AppCompatAutoCompleteTextView) findViewById(R.id.add_friend_autocomplete);
-
-        Intent received = getIntent();
-        Bundle extras = received.getExtras();
-
+    private void setUpMembers(Bundle extras) {
         mAllFriends =  extras.getParcelableArrayList(ALL_FRIENDS);
         mParticipatingFriends = extras.getParcelableArrayList(PARTICIPATING_FRIENDS);
+    }
 
+    private void setUpViews() {
         mAutoComplete = (AppCompatAutoCompleteTextView) findViewById(R.id.add_friend_autocomplete);
         AutoCompleteAdapter autoCompleteAdapter = new AutoCompleteAdapter(this, R.layout.auto_complete, mAllFriends, mParticipatingFriends);
         mAutoComplete.setAdapter(autoCompleteAdapter);
-
         mStatus = (TextView) findViewById(R.id.auto_complete_friend_status);
-        mStatus.setText("Ready…");
+        mStatus.setText(R.string.ready);
+        setUpTextWatcher();
+        mAutoComplete.addTextChangedListener(mCheckStatus);
+    }
 
-        getSupportActionBar().setTitle(R.string.add_friend_title);
-
+    private void setUpTextWatcher() {
         mCheckStatus = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() > 2) {
-                   if (alreadyParticipating(charSequence.toString())) {
-                        mStatus.setText(R.string.add_friend_already_participates);
-                        deactivateOk();
-                   } else if (alreadyFriend(charSequence.toString())) {
-                        mStatus.setText(R.string.add_friend_adding_to_participation);
-                        activateOk();
-                   }
-                    else {
-                       mStatus.setText(R.string.add_friend_creating_and_adding_friend);
-                       activateOk();
-                   }
-                } else {
-                    mStatus.setText(R.string.add_friend_bad_nickname_not_enough_chars);
-                    deactivateOk();
-                }
+                processTextChanged(charSequence);
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         };
-        mAutoComplete.addTextChangedListener(mCheckStatus);
+    }
+
+    private void processTextChanged(CharSequence charSequence) {
+        if(charSequence.length() > 2) {
+            if (alreadyParticipating(charSequence.toString())) {
+                mStatus.setText(R.string.add_friend_already_participates);
+                deactivateOk();
+            } else if (alreadyFriend(charSequence.toString())) {
+                mStatus.setText(R.string.add_friend_adding_to_participation);
+                activateOk();
+            }
+            else {
+                mStatus.setText(R.string.add_friend_creating_and_adding_friend);
+                activateOk();
+            }
+        } else {
+            mStatus.setText(R.string.add_friend_bad_nickname_not_enough_chars);
+            deactivateOk();
+        }
+    }
+
+    private void setUpActionBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.add_friend_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.add_friend_title);
     }
 
     public static String getNewFriendExtraKey() {
@@ -160,7 +162,7 @@ public class AddFriendActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mNickName.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mAutoComplete.getWindowToken(), 0);
         super.onPause();
     }
 
@@ -177,17 +179,18 @@ public class AddFriendActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_ok) {
-            Log.d(TAG, "tick clicked !");
-            mEnableButton = false;
-            invalidateOptionsMenu();
-            Intent i = new Intent();
-            Friend f = Utils.resolveFriend(mAutoComplete.getText().toString(), mAllFriends);
-
-            i.putExtra(NEW_FRIEND, f);
-            setResult(RESULT_OK, i);
-            finish();
+            sendResult();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendResult() {
+        deactivateOk();
+        Intent i = new Intent();
+        Friend f = Utils.resolveFriend(mAutoComplete.getText().toString(), mAllFriends);
+        i.putExtra(NEW_FRIEND, f);
+        setResult(RESULT_OK, i);
+        finish();
     }
 
 }

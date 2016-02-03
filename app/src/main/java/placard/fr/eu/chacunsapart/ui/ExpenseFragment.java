@@ -60,30 +60,24 @@ public class ExpenseFragment extends Fragment implements BackendListener, View.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mGroup = getArguments().getParcelable(GROUP);
         }
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_expense_list, container, false);
+        setUpViews(v);
+        return v;
+    }
 
+    private void setUpViews(View v) {
         mFab = (FloatingActionButton) v.findViewById(R.id.expense_fab);
-        //mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_orange)));
         mFab.setOnClickListener(this);
         mExpensesLV = (ListView) v.findViewById(R.id.expense_lv);
-
         mBackend = Backend.getInstance(getActivity().getApplicationContext());
-
-
-
-        return v;
     }
 
 
@@ -114,11 +108,7 @@ public class ExpenseFragment extends Fragment implements BackendListener, View.O
     public void onBackendResponse(BackendObject bo) {
         GroupExpenses ge = (GroupExpenses) bo;
         Log.d(TAG, "Group Expenses received: " + ge);
-        //setListAdapter(new ArrayAdapter<Expense>(getActivity(),
-        //        android.R.layout.simple_list_item_1, android.R.id.text1, ge.getExpenses()));
-
         mGroup.setGroupExpenses(ge);
-
         if (ge.getExpenses() != null) {
             mExpensesLV.setAdapter(new ExpenseAdapter(getActivity().getApplicationContext(), mGroup));
             mExpensesLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -139,7 +129,6 @@ public class ExpenseFragment extends Fragment implements BackendListener, View.O
     @Override
     public void onClick(View view) {
         int id = view.getId();
-
         if(id == R.id.expense_fab) {
             startActivity(EditExpenseActivity.getNewExpenseIntent(getActivity().getApplicationContext(), mGroup));
         }
