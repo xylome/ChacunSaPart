@@ -21,6 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
 import placard.fr.eu.org.chacunsapart.R;
 
 public class MyGroupsActivity extends AppCompatActivity implements BackendListener,
@@ -28,31 +31,40 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
 
 	private static final String TAG = MyGroupsActivity.class.getSimpleName();
     private static final int CREATE_GROUP = 0x00101;
-    private static final int UPDATE_GROUP = 0X00102;
+    private static final int UPDATE_GROUP = 0x00102;
+    private static final int GCM_INSTALLATION = 0x00103;
     private Backend mBackend;
 	private ListView mList;
-	private FloatingActionButton mFab;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_groups);
 
-		mList = (ListView) findViewById(R.id.my_groups_lv);
-
-		mBackend = Backend.getInstance(getApplicationContext());
+        setupMembers();
+        setupViews();
+        setupActionBar();
 
 		if (mBackend.isLoggedIn()) {
 			mBackend.getMyGroups(this);
 		}
-
-        mFab = (FloatingActionButton) findViewById(R.id.my_groups_fab);
-
-        mFab.setOnClickListener(this);
-        //mFab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.csp_blue)));
-
-		getSupportActionBar().setTitle(R.string.title_activity_my_groups);
 	}
+
+    private void setupMembers() {
+        mBackend = Backend.getInstance(getApplicationContext());
+    }
+
+    private void setupViews() {
+        FloatingActionButton fab;
+        mList = (ListView) findViewById(R.id.my_groups_lv);
+        fab = (FloatingActionButton) findViewById(R.id.my_groups_fab);
+        fab.setOnClickListener(this);
+    }
+
+    private void setupActionBar() {
+        getSupportActionBar().setTitle(R.string.title_activity_my_groups);
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,10 +110,28 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
 		
 	}
 
+    private void processGEMAvailability() {
+        int error = 0;
+        error = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+        if (error != ConnectionResult.SUCCESS) {
+            Log.d(TAG, "GCM is not Ok…");
+            if (GoogleApiAvailability.getInstance().isUserResolvableError(error)) {
+                Log.d(TAG, "GCM can be installed by user");
+                GoogleApiAvailability.getInstance().getErrorDialog(this, error, GCM_INSTALLATION);
+            } else {
+                Log.d(TAG, "GCM nothing can be done to install it.");
+            }
+        } else {
+            Log.d(TAG, "GCM is Ok !");
+        }
+
+    }
+
     @Override
 	public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        processGEMAvailability();
     }
 
     @Override
