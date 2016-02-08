@@ -1,6 +1,7 @@
 package placard.fr.eu.chacunsapart.gcm;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -24,6 +25,13 @@ public class RegistrationIntentService extends IntentService{
 
     public RegistrationIntentService() {
         super(TAG);
+        Log.d(TAG, "Constructor of RegistrationIntentService…");
+    }
+
+    public static Intent getIntent(Context c) {
+        Log.d(TAG, "get Intent is called");
+        Intent i = new Intent(c, RegistrationIntentService.class);
+        return i;
     }
 
     @Override
@@ -61,8 +69,8 @@ public class RegistrationIntentService extends IntentService{
             //sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
         }
         // Notify UI that registration has completed, so the progress indicator can be hidden.
-        //Intent registrationComplete = new Intent(QuickstartPreferences.REGISTRATION_COMPLETE);
-        //LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+        Intent registrationComplete = new Intent(GcmPrefs.REGISTRATION_COMPLETE);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
     /**

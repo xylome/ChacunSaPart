@@ -8,10 +8,13 @@ import placard.fr.eu.chacunsapart.backend.lib.Backend;
 import placard.fr.eu.chacunsapart.backend.listeners.BackendListener;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +27,8 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import placard.fr.eu.chacunsapart.gcm.GcmPrefs;
+import placard.fr.eu.chacunsapart.gcm.RegistrationIntentService;
 import placard.fr.eu.org.chacunsapart.R;
 
 public class MyGroupsActivity extends AppCompatActivity implements BackendListener,
@@ -35,6 +40,7 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
     private static final int GCM_INSTALLATION = 0x00103;
     private Backend mBackend;
 	private ListView mList;
+    private BroadcastReceiver mGcmReceiver;
 
 
 	@Override
@@ -45,11 +51,25 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
         setupMembers();
         setupViews();
         setupActionBar();
+        setupGcmReceiver();
 
 		if (mBackend.isLoggedIn()) {
 			mBackend.getMyGroups(this);
 		}
+
+        if (processGCMAvailability()) {
+            startGCM();
+        }
 	}
+
+    private void setupGcmReceiver() {
+        mGcmReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "GCM intent");
+            }
+        };
+    }
 
     private void setupMembers() {
         mBackend = Backend.getInstance(getApplicationContext());
@@ -64,6 +84,10 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
 
     private void setupActionBar() {
         getSupportActionBar().setTitle(R.string.title_activity_my_groups);
+    }
+
+    private void startGCM() {
+        startService(RegistrationIntentService.getIntent(this));
     }
 
 	@Override
@@ -110,7 +134,7 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
 		
 	}
 
-    private void processGEMAvailability() {
+    private boolean processGCMAvailability() {
         int error = 0;
         error = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (error != ConnectionResult.SUCCESS) {
@@ -123,15 +147,23 @@ public class MyGroupsActivity extends AppCompatActivity implements BackendListen
             }
         } else {
             Log.d(TAG, "GCM is Ok !");
+            return true;
         }
-
+        return false;
     }
 
     @Override
 	public void onResume() {
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mGcmReceiver,
+                new IntentFilter(GcmPrefs.REGISTRATION_COMPLETE));
         Log.d(TAG, "onResume");
-        processGEMAvailability();
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mGcmReceiver);
+        super.onPause();
     }
 
     @Override
